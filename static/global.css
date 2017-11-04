@@ -10,8 +10,9 @@ body {
 .friendsList {
     float: left;
     background-color: grey;
-    height: 100vh;
+    height: 100%;
     width: 10%;
+    min-height: 100vh;
 }
 
 .pals {
@@ -49,7 +50,7 @@ h3 {
     height: 15px;
     width: 15px;
     position: relative;
-    left: 25px;
+    left: 20%;
     top: 15px;
     background-color: green;
     border-radius: 100%;
@@ -78,4 +79,15 @@ h3 {
 
 .direc {
     display: block;
+}
+
+
+/* MEDIA QUERIES */
+@media screen and (max-width: 900px) {
+    .online {
+        left: 15px;
+    }
+    .friendsList {
+        width: 100px;
+    }
 }
