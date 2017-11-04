@@ -47,7 +47,6 @@ GlobalWs.prototype.Create = function() {
         console.log("OPEN GLOBAL");
         globalWs.ws.send(JSON.stringify({
             action: "user-connected",
-            fromUid: document.getElementById('userid').value,
             fromUid: globalState.Friends.myid,
         }))
     }
