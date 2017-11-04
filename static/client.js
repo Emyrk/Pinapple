@@ -106,8 +106,8 @@ Friends.prototype.addFriend = function(personname, uid) {
     this.people[uid] = personname;
 
     var listItem = $(`<li class=jessesaran id="pal-` + uid + `" name="` + personname + `">`)
-    listItem.append($("<img src=http://graph.facebook.com/" + uid + "/picture?width=150&height=150>"));
     listItem.append($("<div class=online>"))
+    listItem.append($("<img src=http://graph.facebook.com/" + uid + "/picture?width=150&height=150>"));
     listItem.append($("<h5>").html(personname))
     
     $("#friendlist").append(listItem)
