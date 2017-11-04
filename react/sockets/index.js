@@ -5,21 +5,13 @@ var friends = new Friends();
 var globalWs = new GlobalWs();
 
 window.addEventListener("load", function(evt) {
-    globalWs.Create();
-
-    //TODO REMOVE FILLER BELOW
-    friends.SetFriends({
-        sam: 0, //FILLER
-        ed: 1, //FILLER
-    })
-    friends.SetMeUid(100); //FILLER
 
     var dropZone = document.getElementById('drop-zone');
 
     dropZone.ondrop = function(e) {
         e.preventDefault();
         this.className = 'upload-drop-zone';
-        globalWs.send(JSON.stringify({
+        globalWs.ws.send(JSON.stringify({
             action: "share-files",
             toUid: document.getElementById('uid').value,
             fromUid: document.getElementById('sesid').value,
@@ -37,4 +29,20 @@ window.addEventListener("load", function(evt) {
         this.className = 'upload-drop-zone';
         return false;
     }
+
+
+        // $("#friends").append("<p>" + $("#userid").value() + "</p>" ); 
+    $("#setuserid").click(function() {
+        globalWs.Create();
+        $(".idset").hide();
+        var uid = document.getElementById('userid').value
+        friends.SetMeUid(uid);
+        $("#myid").append("<p>" + uid + "</p>");
+    });
+    $("#addfriendid").click(function() {
+        var uid = document.getElementById('friendid').value;
+        friends.SetMeUid(uid);
+        $("#friends").append("<p>" + uid + "</p>");
+        document.getElementById('friendid').value = "";
+    });
 });

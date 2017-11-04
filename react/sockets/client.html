@@ -4,26 +4,35 @@
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="/static/client.css">
     <script
-  src="https://code.jquery.com/jquery-3.2.1.min.js"
-  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-  crossorigin="anonymous"></script>
-  <script
-  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
-  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
-  crossorigin="anonymous"></script>
-    <script src="/static/index.js"></script>
+    src="https://code.jquery.com/jquery-3.2.1.min.js"
+    integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+    crossorigin="anonymous"></script>
+    <script
+    src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+    integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+    crossorigin="anonymous"></script>
     <script src="/static/client.js"></script>
+    <script src="/static/management.js"></script>
+    <script src="/static/index.js"></script>
     <script src="/static/display.js"></script>
 </head>
 <body>
-    <div id="fb-root"></div>
+    <!-- <div id="fb-root"></div>
     <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"
     data-scope="user_friends"
-    onlogin="checkLoginState()"></div>
+    onlogin="checkLoginState()"></div>-->
+    <h1>
+        Fake Login
+    </h1>
+    UserID: <input class="idset" id="userid" type="text" name="fname"><br> <p id="myid"></p>
+    <button class="idset" id="setuserid">Login with id</button>
+    <hr>
     <div>
-        <h1>
-            Fake Login
-        </h1>
+        <h1>Friends</h1>
+        FriendID: <input id="friendid" type="text" name="fname"><br> <p id="myid"></p>
+        <button id="addfriendid">Add Friend ID</button>
+        <ul id="friends"></ul>
+        <hr>
     </div>
     <img src="/static/img/rodel.png" class="draggable"></img>
     <table>
@@ -33,8 +42,6 @@
                     "Send" to send a message to the server and "Close" to close the connection. 
                     You can change the message and send multiple times.
                 </p>
-                UserID: <input id="userid" type="text" name="fname"><br>
-                SessionID: <input id="sesid" type="text" name="lname"><br>
                 <a download="info.txt" id="downloadlink" style="display: none">Download</a>
             </td>
             <td valign="top" width="50%">
@@ -48,15 +55,15 @@
 
 
     <div id="wrapper">
-    <div id="origin" class="fbox">
-        <img src="http://placehold.it/140x100" id="one" title="one" class="draggable" />
-        <img src="http://placehold.it/150x100" id="two" title="two" class="draggable" />
-        <img src="http://placehold.it/160x100" id="three" title="three" />
+        <div id="origin" class="fbox">
+            <img src="http://placehold.it/140x100" id="one" title="one" class="draggable" />
+            <img src="http://placehold.it/150x100" id="two" title="two" class="draggable" />
+            <img src="http://placehold.it/160x100" id="three" title="three" />
+        </div>
+        <p>test</p>
+        <div id="drop" class="fbox">
+
+        </div>
     </div>
-  <p>test</p>
-    <div id="drop" class="fbox">
-   
-    </div>
-</div>
 </body>
 </html>

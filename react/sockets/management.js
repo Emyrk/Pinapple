@@ -3,31 +3,33 @@ function GlobalWs() {
 }
 
 GlobalWs.prototype.Create = function() {
-    if (!globalWs) {
-        globalWs = new WebSocket("ws://localhost:8080/mngmt/connect"+query);
+    if (!globalWs.ws) {
+        var uid = document.getElementById('userid').value
+        var query = "?userid="+uid;
+        globalWs.ws = new WebSocket("ws://localhost:8080/mngmt/connect"+query);
     }
 
     //Set global socket
-    globalWs.onopen = function(evt) {
+    globalWs.ws.onopen = function(evt) {
         print("OPEN GLOBAL");
-        globalWs.send(JSON.stringify({
+        globalWs.ws.send(JSON.stringify({
             action: "user-connected",
             fromUid: document.getElementById('userid').value,
         }))
     }
-    globalWs.onclose = function(evt) {
+    globalWs.ws.onclose = function(evt) {
         print("CLOSE GLOBAL");
         //TODO gray out screen and say it has been closed
         globalWs = null;
     }
-    globalWs.onmessage = function(evt) {
+    globalWs.ws.onmessage = function(evt) {
         evt.data = JSON.parse(evt.data);
         print("RESPONSE: " + evt.data);
         switch (evt.data.action) {
             case "user-disconnected":
                 //msg sent by server when user disconnects
                 //notification that user is no long online
-                console.log("User Disconnect", evt.data)
+                console.log("User Disconnect", evt.data);
                 if(friends.IsFriendAndIsMe(evt.data.fromUid, evt.data.toUid)) {
                     //if this uid is my friend
                     // TODO change online to offline for user
@@ -38,7 +40,7 @@ GlobalWs.prototype.Create = function() {
             case "user-connected":
                 //msg sent by server when user connects
                 //notification that user has is now online
-                console.log("User Connected", evt.data)
+                console.log("User Connected", evt.data);
                 if(friends.IsFriendAndIsMe(evt.data.fromUid, evt.data.toUid)) {
                     //if this uid is my friend
                     // TODO change online to online for user
@@ -82,7 +84,7 @@ GlobalWs.prototype.Create = function() {
         }
         
     }
-    globalWs.onerror = function(evt) {
+    globalWs.ws.onerror = function(evt) {
         print("ERROR: " + evt.data);
     }
 }
