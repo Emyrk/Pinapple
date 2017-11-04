@@ -2,7 +2,6 @@ package server
 
 import (
 	// "html/template"
-	"fmt"
 	"os"
 	"path/filepath"
 )
