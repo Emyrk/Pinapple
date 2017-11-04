@@ -30,4 +30,5 @@
 .draggable
 {
   border: solid 2px gray;
+  position: absolute;
 }

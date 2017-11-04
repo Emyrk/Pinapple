@@ -130,6 +130,15 @@ window.addEventListener("load", function(evt) {
                     } else {
                         console.log("INFO: no friends for available-files.")
                     }
+                case "update-location": 
+                    //response from request-files, listing avaiable files
+                    //no notification, this is used when changing connections
+                    console.log("Update Location:", evt.data);
+                    if(friends.IsFriendAndIsMe(evt.data.fromUid, evt.data.toUid)) {
+                        //TODO add in files to screen ui
+                    } else {
+                        console.log("INFO: no friends for available-files.")
+                    }
             }
             
         }
@@ -179,7 +188,12 @@ window.addEventListener("load", function(evt) {
 
     var dropZone = document.getElementById('drop-zone');
 
-    dropZone.ondrop = function(e) {
+    dropZone.ondrop = function(e, ui) {
+        console.log(ui.draggable)
+        updateLocation($("#img1"), ui.draggable.position().left, ui.draggable.position().top)
+        if(ws == undefined) {
+            return
+        }
         e.preventDefault();
         this.className = 'upload-drop-zone';
         ws.send(JSON.stringify({
@@ -201,3 +215,8 @@ window.addEventListener("load", function(evt) {
         return false;
     }
 });
+
+function updateLocation(dom, x, y) {
+    dom.css("left", x)
+    dom.css("top", y)
+}
