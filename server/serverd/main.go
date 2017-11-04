@@ -18,7 +18,7 @@ var (
 func main() {
 	flag.Parse()
 	if *sarah {
-		server.SetBaseDir("/Users/saraartese/desktop/github/pinapple/react/sockets")
+		server.SetBaseDir("/Users/saraartese/desktop/github/pinapple/static")
 	}
 	sm := server.NewSessionManager()
 	go sm.Listen(*addr)
