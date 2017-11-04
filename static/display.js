@@ -1,3 +1,4 @@
+//$(".draggable").draggable({ cursor: "crosshair", revert: "invalid"});
 // $("#drop").droppable({ accept: ".draggable", 
 //            drop: function(event, ui) {
 //                     console.log("drop");
