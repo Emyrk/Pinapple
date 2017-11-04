@@ -1,18 +1,40 @@
+/*
+COLORS:
+soap: #C9C4E4
+offwhite: #
+gunmetal: #2B303A
+cornflower: #63959C
+grey: #7C7C7C
+*/
+
 /* UTILITY */
+@font-face {
+    font-family: 'muliregular';
+    src: url('Muli-Light.ttf') format('truetype');
+    font-weight: normal;
+    font-style: normal;
+
+}
 
 body {
     padding: 0px;
     margin: 0px;
     overflow-x: hidden;
+    font-family: 'muliregular', sans-serif;
+    background-color: #fdfdfd;
+    color: #7C7C7C;
 }
+
+
 
 /* FRIENDS LIST */
 .friendsList {
     float: left;
-    background-color: grey;
+    background-color: #2B303A;
     height: 100%;
     width: 10%;
     min-height: 100vh;
+    
 }
 
 .pals {
@@ -26,9 +48,11 @@ ul {
 
 .pals li {
     list-style-type: none;
-    margin: 0 auto;
+    margin: 5% auto;
     height: 100%;
     width: 100%;
+    color: #fdfdfd;
+    font-family: 'muliregular';
 }
 
 li img {
@@ -44,8 +68,16 @@ h5 {
 h3 { 
     text-align: center;
     display: block;
+    color: #fdfdfd;
+    
 }
-
+span {
+    margin: 0 auto;
+    display:block;
+    border-bottom: 2px solid #fdfdfd;
+    width: 65%;
+    padding-bottom: 4px;
+}
 .online {
     height: 15px;
     width: 15px;
@@ -65,11 +97,16 @@ h3 {
 
 .confirmShare {
     display: none;
+    width: 100%;
+    text-align: center;
+    font-size: 16pt;
 }
-
+#confirm-share-name{
+    color: #63959C;
+}
 .appContent{
    float: right;
-   padding-top: 20%;
+   padding-top: 10%;
    align-items: center;
    text-align: center;
    justify-content: center;
@@ -79,6 +116,7 @@ h3 {
 
 .direc {
     display: block;
+    font-size: 16pt;
 }
 
 
