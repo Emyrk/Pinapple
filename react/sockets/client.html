@@ -3,14 +3,24 @@
 <head>
     <meta charset="utf-8">
     <link rel="stylesheet" type="text/css" href="/static/client.css">
+    <script
+  src="https://code.jquery.com/jquery-3.2.1.min.js"
+  integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+  crossorigin="anonymous"></script>
+  <script
+  src="https://code.jquery.com/ui/1.12.1/jquery-ui.min.js"
+  integrity="sha256-VazP97ZCwtekAsvgPBSUwPFKdrwD3unUfSGVYrahUqU="
+  crossorigin="anonymous"></script>
     <script src="/static/index.js"></script>
     <script src="/static/client.js"></script>
+    <script src="/static/display.js"></script>
 </head>
 <body>
     <div id="fb-root"></div>
     <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"
     data-scope="user_friends"
     onlogin="checkLoginState()"></div>
+    <img src="/static/img/rodel.png" class="draggable"></img>
     <table>
         <tr>
             <td valign="top" width="50%">
@@ -37,5 +47,18 @@
     <div class="upload-drop-zone" id="drop-zone">
         Just drag and drop files here
     </div>
+
+
+    <div id="wrapper">
+    <div id="origin" class="fbox">
+        <img src="http://placehold.it/140x100" id="one" title="one" class="draggable" />
+        <img src="http://placehold.it/150x100" id="two" title="two" class="draggable" />
+        <img src="http://placehold.it/160x100" id="three" title="three" />
+    </div>
+  <p>test</p>
+    <div id="drop" class="fbox">
+   
+    </div>
+</div>
 </body>
 </html>
