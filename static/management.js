@@ -2,7 +2,7 @@ function GlobalWs() {
 
 }
 
-function addFileToDropZone(sesid, fileName, x, y){
+function addFileToDropZone(sesid, fileName, x, y, mine){
 
     var fileExt = fileName.split('.').pop();
     var fileImgSrc = "/static/img/rodel.png"
@@ -23,8 +23,13 @@ function addFileToDropZone(sesid, fileName, x, y){
         fileImgSrc = "/static/img/icons/unknown.png"
     }
 
-    var draggable = $("<div class='draggable' id='" + fileName.split('.')[0] + "' shared='true'>").css({ "margin-left" : x, "margin-top" : y});
-    var icon = $("<img src='" + fileImgSrc + "' class=icon>");
+    var domname = fileName.split('.')[0]
+    var button = "<button id='" + domname+ "-button' file='" + fileName + "'' sesid='" + sesid + "'>Download</button>"
+    if(mine != undefined && mine) {
+        button = ""
+    }
+    var draggable = $("<div class='draggable' id='" + domname + "' shared='true'>").css({ "margin-left" : x, "margin-top" : y});
+    var icon = $("<img src='" + fileImgSrc + "' class=icon>" + button);
     var fileName = $("<div class='fileName'>").html(fileName);
 
     draggable.append(icon);
@@ -33,6 +38,21 @@ function addFileToDropZone(sesid, fileName, x, y){
 
     $("#"+sesid).append(draggable);
     $( ".draggable" ).draggable({ cursor: "crosshair", revert: "invalid"});
+
+    $("#"+domname+"-button").on('click', function() {
+        var session = globalState.Sessions[$(this).attr('sesid')]
+        if(session != undefined) {
+            session.Con.setLink($(this).attr("file"))
+        }
+        globalWs.ws.send(JSON.stringify({
+            action: "ask-download-file",
+            toUid: globalState.activeFriend,//"b",
+            fromUid: globalState.Friends.myid,//document.getElementById('userid').value,
+            sesid: getSession(globalState.activeFriend, globalState.Friends.myid) ,
+            
+            domid: $(this).attr("file"),
+        }))
+    })
 }
 
 GlobalWs.prototype.Create = function() {
@@ -70,6 +90,7 @@ GlobalWs.prototype.Create = function() {
                 } else {
                     console.log("INFO: no friends for user-disconnected.")
                 }
+                break
 
             case "user-connected":
                 //msg sent by server when user connects
@@ -96,6 +117,21 @@ GlobalWs.prototype.Create = function() {
                 } else {
                     console.log("INFO: no friends for share-files")
                 }
+                break
+
+            // Request the file over data connection
+            case "ask-download-file":
+                console.log("Request Files:", data);
+                if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
+                   console.log(data)
+                   var session = globalState.Sessions["" + data.sesid]
+                   if(session != undefined) {
+                    session.Con.send("HELLO!")
+                   }
+                } else {
+                    console.log("INFO: no friends for request-files.")
+                }
+                break
 
             //BELOW ARE USED WHEN CHANGING CONNECTIONS
             // DO NOOOTTTT IMPLEMENT THESE TILL ABOVE ARE FINISHED
@@ -111,6 +147,7 @@ GlobalWs.prototype.Create = function() {
                 } else {
                     console.log("INFO: no friends for request-files.")
                 }
+                break
             case "available-files": 
                 //response from request-files, listing avaiable files
                 //no notification, this is used when changing connections
@@ -120,6 +157,7 @@ GlobalWs.prototype.Create = function() {
                 } else {
                     console.log("INFO: no friends for available-files.")
                 }
+                break
             case "update-location":
                 // Need id, x, y
                 console.log("Update Location", data)
@@ -130,6 +168,7 @@ GlobalWs.prototype.Create = function() {
                 } else {
                     console.log("INFO: no friends for available-files.")
                 }
+                break
         }
         
     }

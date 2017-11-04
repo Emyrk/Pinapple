@@ -185,15 +185,14 @@ Connection.prototype.connect = function(uid, sesid) {
 };
 
 Connection.prototype.setLink = function(name) {
-    $("#hidden-download").download = name
+    $("#hidden-download").attr('download', name)
 }
 
 Connection.prototype.send = function(data) {
     if (!this.ws) {
         return false;
     }
-    consoel.log("SEND: " + input.value);
-    this.ws.send(input.value);
+    this.ws.send(data);
     return true;
 }
 

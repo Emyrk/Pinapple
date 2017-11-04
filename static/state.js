@@ -80,7 +80,8 @@ GlobalState.prototype.activateBox = function(sesid) {
         	}))
         	// ui.draggable.attr("shared", true)
         	console.log("Attr set")
-        	addFileToDropZone($(element).attr("id"), e.dataTransfer.files[0].name, e.offsetX-35, e.offsetY-35)
+            element.attr('wholefile', e.dataTransfer.files[0])
+        	addFileToDropZone($(element).attr("id"), e.dataTransfer.files[0].name, e.offsetX-35, e.offsetY-35, true)
         }
 	}
 
