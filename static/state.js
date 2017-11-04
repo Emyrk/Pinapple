@@ -62,24 +62,21 @@ GlobalState.prototype.activateBox = function(sesid) {
         var element = this
         if(ui != undefined && ui.draggable.attr("shared")) {
         	console.log("Attr already set")
-            var x = ui.draggable.position().left
-            var y = ui.draggable.position().top
-            var nx = ui.draggable.position().left / dropZone.offsetWidth
-            var ny = ui.draggable.position().top / dropZone.offsetHeight
-        	globalWs.ws.send(JSON.stringify({
-        		action: "update-location",
-        		toUid: globalState.activeFriend,//"b",
-        		fromUid: globalState.Friends.myid,//document.getElementById('userid').value,
-        		sesid: getSession(globalState.activeFriend, globalState.Friends.myid) ,
+            console.log("Attr already set")
+            globalWs.ws.send(JSON.stringify({
+                action: "update-location",
+                toUid: globalState.activeFriend,//"b",
+                fromUid: globalState.Friends.myid,//document.getElementById('userid').value,
+                sesid: getSession(globalState.activeFriend, globalState.Friends.myid) ,
                 // files: e.dataTransfer.files,
                 domid: ui.draggable.attr("id"),
-                xloc: x,
-                yloc: y,
-                normlX: nx,
-                normlY: ny,
+                xloc: ui.draggable.position().left,
+                yloc: ui.draggable.position().top,
+                normlX: ui.draggable.position().left / dropZone.offsetWidth,
+                normlY: ui.draggable.position().top / dropZone.offsetHeight,
             }))
-            globalState.Files[e.dataTransfer.files[0].name].xLoc = nx
-            globalState.Files[e.dataTransfer.files[0].name].yLoc = ny
+            globalState.Files[ui.draggable.attr("filename")].xLoc =  ui.draggable.position().left / dropZone.offsetWidth
+            globalState.Files[ui.draggable.attr("filename")].yLoc = ui.draggable.position().top / dropZone.offsetHeight
             
         } else {
         	// New file
@@ -93,9 +90,12 @@ GlobalState.prototype.activateBox = function(sesid) {
         		filename: e.dataTransfer.files[0].name,
         		xloc: nx,
                 yloc: ny,
+                normlX: nx,
+                normlY: ny,
         	}))
         	// ui.draggable.attr("shared", true)
         	console.log("Attr set")
+            $(element).attr("shared", true)
             globalState.Files[e.dataTransfer.files[0].name] = new File(e.dataTransfer.files[0], nx, ny)
 
         	addFileToDropZone($(element).attr("id"), e.dataTransfer.files[0].name, e.offsetX-35, e.offsetY-35, true)
@@ -123,6 +123,13 @@ GlobalState.prototype.activateBox = function(sesid) {
 	dropZone.addEventListener("dragenter", ondragenter, false);
     dropZone.addEventListener("dragover", ondragover, false);
     return dom
+}
+
+var str
+
+function readFile(f) {
+    var reader = new FileReader()
+    str = reader.readAsBinaryString(f)
 }
 
 function updateProgress(evt) {

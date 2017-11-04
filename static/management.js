@@ -28,7 +28,7 @@ function addFileToDropZone(sesid, fileName, x, y, mine){
     if(mine != undefined && mine) {
         button = ""
     }
-    var draggable = $("<div class='draggable' id='" + domname + "' shared='true'>").css({ "margin-left" : x, "margin-top" : y});
+    var draggable = $("<div class='draggable' id='" + domname + "' shared='true' filename='" + fileName + "'>").css({ "margin-left" : x, "margin-top" : y});
     var icon = $("<img src='" + fileImgSrc + "' class=icon>" + button);
     var fileName = $("<div class='fileName'>").html(fileName);
 
