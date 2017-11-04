@@ -7,32 +7,60 @@ var globalWs = new GlobalWs();
 window.addEventListener("load", function(evt) {
     var dropZone = document.getElementById('drop-zone');
 
-    dropZone.ondrop = function(e, ui) {
-        console.log(ui.draggable)
+    ondrop = function(e, ui) {
+        e.stopPropagation();
+        e.preventDefault();
+
+        
+        
         // updateLocation($("#img1"), ui.draggable.position().left, ui.draggable.position().top)
         e.preventDefault();
         this.className = 'upload-drop-zone';
+
         if(globalWs.ws == undefined) {
             return
         }
-        globalWs.ws.send(JSON.stringify({
-            action: "share-files",
-            toUid: document.getElementById('uid').value,
-            fromUid: document.getElementById('sesid').value,
-            files: e.dataTransfer.files,
-        }))
+        if(ui.draggable.attr("shared")) {
+            console.log("Attr already set")
+            globalWs.ws.send(JSON.stringify({
+                action: "updaet-location",
+                toUid: document.getElementById('uid').value,
+                fromUid: document.getElementById('sesid').value,
+                files: e.dataTransfer.files,
+                domid: ui.id
+            }))
+        } else {
+            globalWs.ws.send(JSON.stringify({
+                action: "share-files",
+                toUid: document.getElementById('uid').value,
+                fromUid: document.getElementById('sesid').value,
+                files: e.dataTransfer.files,
+            }))
+            ui.draggable.attr("shared", true)
+            console.log("Attr set")
+        }
     }
 
-    dropZone.ondragover = function(e) {
+    ondragenter = function(e) {
+        e.stopPropagation();
+        e.preventDefault();
+    }
+
+    ondragover = function(e) {
         this.className = 'upload-drop-zone drop';
         console.log("DRAG OVER: ", e)
         return false;
     }
 
-    dropZone.ondragleave = function() {
+    ondragleave = function() {
         this.className = 'upload-drop-zone';
         return false;
     }
+
+    dropZone.addEventListener("dragenter", ondragenter, false);
+    dropZone.addEventListener("dragover", ondragover, false);
+    dropZone.addEventListener("drop", ondrop, false);
+
 
     // $("#friends").append("<p>" + $("#userid").value() + "</p>" ); 
     $("#setuserid").click(function() {
