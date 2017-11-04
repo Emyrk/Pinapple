@@ -11,8 +11,6 @@ window.addEventListener("load", function(evt) {
         e.stopPropagation();
         e.preventDefault();
 
-        
-        
         // updateLocation($("#img1"), ui.draggable.position().left, ui.draggable.position().top)
         e.preventDefault();
         this.className = 'upload-drop-zone';
@@ -20,14 +18,16 @@ window.addEventListener("load", function(evt) {
         if(globalWs.ws == undefined) {
             return
         }
-        if(ui.draggable.attr("shared")) {
+        if(ui != undefined && ui.draggable.attr("shared")) {
             console.log("Attr already set")
             globalWs.ws.send(JSON.stringify({
-                action: "updaet-location",
+                action: "update-location",
                 toUid: document.getElementById('uid').value,
                 fromUid: document.getElementById('sesid').value,
                 files: e.dataTransfer.files,
-                domid: ui.id
+                domid: ui.draggable.attr("id"),
+                xloc: ui.draggable.position().left,
+                yloc: ui.draggable.position().top,
             }))
         } else {
             globalWs.ws.send(JSON.stringify({
