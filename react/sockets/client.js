@@ -2,6 +2,22 @@ function Connection() {
 
 }
 
+var textFile = null;
+
+function makeTextFile (text) {
+    var data = new Blob([text], {type: 'text/plain'});
+
+    // If we are replacing a previously generated file we need to
+    // manually revoke the object URL to avoid memory leaks.
+    if (textFile !== null) {
+      window.URL.revokeObjectURL(textFile);
+    }
+
+    textFile = window.URL.createObjectURL(data);
+
+    return textFile;
+}
+
 Connection.prototype.connect = function(uid, sesid) {
     if (ws) {
         return false;
@@ -9,7 +25,7 @@ Connection.prototype.connect = function(uid, sesid) {
 
     var query = "?userid=" + uid + "&sessionid=" + sesid
 
-    ws = new WebSocket("{{.}}"+query);
+    ws = new WebSocket("localhost:8080/connect"+query);
     ws.onopen = function(evt) {
         // print("OPEN");
         console.log("OPEN")
