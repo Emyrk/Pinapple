@@ -9,6 +9,7 @@
     <script src="/static/management.js"></script>
     <script src="/static/index.js"></script>
     <script src="/static/display.js"></script>
+    <script src="/static/state.js"></script>
 </head>
 <body>
     <!-- <div id="fb-root"></div>
@@ -38,9 +39,13 @@
 
 
     <div id="wrapper">
-    <div class="upload-drop-zone" id="drop-zone">
-        Just drag and drop files here
+        <div id="download-container">
+            <div class="upload-drop-zone" id="drop-zone">
+                Just drag and drop files here
+            </div>
+        </div>
     </div>
-    </div>
+    <a id="download-link" href="" download> Download</a>
+    <a id="hidden-download" style="display: none;" download><a/>
 </body>
 </html>

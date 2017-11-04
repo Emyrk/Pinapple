@@ -106,7 +106,7 @@ Connection.prototype.connect = function(uid, sesid) {
 
     var query = "?userid=" + uid + "&sessionid=" + sesid
 
-    this.ws = new WebSocket("localhost:8080/connect"+query);
+    this.ws = new WebSocket("ws://localhost:8080/connect"+query);
     this.ws.onopen = function(evt) {
         // print("OPEN");
         console.log("OPEN")
@@ -121,7 +121,7 @@ Connection.prototype.connect = function(uid, sesid) {
         console.log("RESPONSE: " + evt.data);
         // var link = document.getElementById('downloadlink');
         this.link.href = makeTextFile(evt.data);
-        this.link.download = "info.txt";
+        document.getElementById("hidden-download").click()
         // DO SOME ACTION
     }
     this.ws.onerror = function(evt) {
@@ -131,8 +131,8 @@ Connection.prototype.connect = function(uid, sesid) {
     return false;
 };
 
-Connection.prototype.setLink = function(link) {
-    this.link = link
+Connection.prototype.setLink = function(name) {
+    $("#hidden-download").download = name
 }
 
 Connection.prototype.send = function(data) {

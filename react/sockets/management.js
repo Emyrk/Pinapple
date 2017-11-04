@@ -67,6 +67,7 @@ GlobalWs.prototype.Create = function() {
                 console.log("Request Files:", data);
                 if(friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //if this uid is my friend
+                    // download-link
                     // TODO Return available files
                     //  - action on return = "available-files"
                 } else {
