@@ -82,6 +82,7 @@ GlobalWs.prototype.Create = function() {
                     console.log("INFO: no friends for available-files.")
                 }
             case "update-location":
+                // Need id, x, y
                 console.log("Update Location", evt.data)
                 if(friends.IsFriendAndIsMe(evt.data.fromUid, evt.data.toUid)) {
                     //TODO add in files to screen ui
