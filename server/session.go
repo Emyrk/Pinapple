@@ -134,6 +134,13 @@ func (c *Connection) Echo(con *Connection) {
 			log.Println(err)
 			continue
 		}
+
+		// Partner not there
+		if con == nil {
+			time.Sleep(1 * time.Second)
+			continue
+		}
+
 		err = con.Conn.WriteMessage(mt, message)
 		if err != nil {
 			// Probably should manage this better
