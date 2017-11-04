@@ -27,7 +27,7 @@ function Session(myid, toid) {
 	this.toid = toid
 
 	this.Con = new Connection()
-	this.Con.connect()
+	this.Con.connect(myid, getSession(myid, toid))
 }
 
 GlobalState.prototype.activateBox = function(sesid) {
