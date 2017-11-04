@@ -94,6 +94,6 @@ GlobalWs.prototype.Create = function() {
         
     }
     globalWs.ws.onerror = function(evt) {
-        print("ERROR: " + evt.data);
+        console.log("ERROR: " + evt.data);
     }
 }
