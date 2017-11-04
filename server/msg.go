@@ -1,8 +1,6 @@
 package server
 
-import (
-	"encoding/json"
-)
+import ()
 
 const (
 	ACTION_USER_DISCONNECTED = "user-disconnected"

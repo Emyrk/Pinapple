@@ -1,6 +1,7 @@
 package server
 
 import (
+	"encoding/json"
 	"fmt"
 	"log"
 	"net/http"
@@ -45,7 +46,7 @@ func (m *ManagementHandler) connect(w http.ResponseWriter, r *http.Request) {
 	// con becomes the websocket
 	con, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
-		log.Print("Mgmt: upgrade:", err)
+		log.Print("Mgmt: upgrade: ", err)
 		return
 	}
 
@@ -102,7 +103,7 @@ type ManagementClient struct {
 }
 
 func (m *ManagementClient) SendMsg(msg *BroadcastMsg) {
-	if conn != nil {
+	if m.conn != nil {
 		err := m.conn.WriteMessage(msg.Type, msg.Data)
 		if err != nil {
 			log.Printf("ERROR: mngmt: sendMsg uid[%s]: %s\n", m.uid, err.Error())
@@ -112,7 +113,10 @@ func (m *ManagementClient) SendMsg(msg *BroadcastMsg) {
 }
 
 func (m *ManagementClient) serveIncoming(broadcast chan *BroadcastMsg) {
-	for m.Alive || m.conn != nil {
+	for m.Alive {
+		if m.conn == nil {
+			break
+		}
 		mt, data, err := m.conn.ReadMessage()
 		if err != nil {
 			time.Sleep(1 * time.Second)
@@ -139,7 +143,7 @@ func (m *ManagementClient) serveIncoming(broadcast chan *BroadcastMsg) {
 			ACTION_USER_DISCONNECTED,
 			m.uid,
 		}
-		b, err := msg.MarshalMessage()
+		b, err := json.Marshal(msg)
 		if err != nil {
 			log.Printf("ERROR: mngmt: serverIncoming: failed to marshal failure: %s\n", err.Error())
 		}

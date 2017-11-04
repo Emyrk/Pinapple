@@ -1,3 +1,59 @@
+/*************** Start of Facebook Code ***************/
+
+// Called whenever the page is loaded
+window.fbAsyncInit = function() {
+	FB.init({
+		appId      : '360836037704418',
+		cookie     : true,
+		xfbml      : true,
+		version    : 'v2.10'
+	});
+
+    FB.AppEvents.logPageView();
+      
+	// Checks if the user is logged in or not
+	FB.getLoginStatus(function(response) {
+        //console.log(response);
+        
+        // if the user is logged in, return a list of their friends
+        if (response.status == "connected"){
+
+            var queryString = "/me/friends"
+
+            FB.api(queryString, function(response) {
+                console.log(JSON.stringify(response));
+            });
+        }
+    });
+
+};
+
+// Dont worry about this. It does stuff we need but I'm not entirely sure what that is. 
+(function(d, s, id){
+	var js, fjs = d.getElementsByTagName(s)[0];
+	if (d.getElementById(id)) {return;}
+	js = d.createElement(s); js.id = id;
+	js.src = "https://connect.facebook.net/en_US/sdk.js";
+	fjs.parentNode.insertBefore(js, fjs);
+}(document, 'script', 'facebook-jssdk'));
+
+// Called after the user is logged in (after the Facebook popup window dissapears)
+function checkLoginState() {
+    FB.getLoginStatus(function(response) {
+
+        console.log(response)
+
+        var queryString = "/me/friends"
+        
+        FB.api(queryString, function(response) {
+            console.log(JSON.stringify(response));
+        });
+    });
+  }
+
+/*************** End of Facebook Code ***************/
+
+
 function Friends() {
 
 }
@@ -79,8 +135,7 @@ Connection.prototype.send = function(data) {
     if (!this.ws) {
         return false;
     }
-    //print("SEND: " + input.value);
-    consoel.log(("SEND: " + input.value);)
+    consoel.log("SEND: " + input.value);
     this.ws.send(input.value);
     return true;
 }
