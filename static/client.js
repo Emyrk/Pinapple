@@ -99,6 +99,7 @@ Friends.prototype.addFriend = function(person, uid) {
     )
 
     $("#pal-"+uid).on('click', function(){
+        $(".activeOnly").removeClass("activeOnly")
         var sesid = getSession(uid, globalState.Friends.myid)
         $('#mainScreen').removeClass("activeOnly");
         if(globalState.Sessions[sesid] != undefined) {

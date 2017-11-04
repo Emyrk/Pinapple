@@ -57,10 +57,9 @@ $( function() {
 
 function startShare() {
   var uid = $('#confirm-share-name').attr("uid")
-  $('.confirmShare').hide();
-  $(".confirmShare").removeClass("activeOnly")
+  $("#confirmShare").removeClass("activeOnly")
   var ses = getSession(globalState.Friends.myid, uid)
-  globalState.addSession(ses)
+  globalState.addSession(uid)
   $("#"+ ses).addClass("activeOnly")
 
   
