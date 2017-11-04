@@ -41,8 +41,6 @@ func (m *ManagementHandler) Listen(port int) {
 
 func (m *ManagementHandler) connect(w http.ResponseWriter, r *http.Request) {
 	uid := r.FormValue("userid")
-
-	var _ = uid
 	// con becomes the websocket
 	con, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -56,7 +54,7 @@ func (m *ManagementHandler) connect(w http.ResponseWriter, r *http.Request) {
 		Alive: true,
 	}
 
-	fmt.Println("ADDING CLIENT: ", uid)
+	log.Println("ADDING CLIENT: ", uid)
 
 	m.clientLock.Lock()
 
@@ -84,10 +82,10 @@ func (m *ManagementHandler) serveBroadcast() {
 			m.clientLock.RLock()
 			for uid, c := range m.Clients {
 				if uid != bcastMsg.uid {
-					fmt.Println("SENDING TO: ", uid)
+					log.Println("SENDING TO: ", uid)
 					c.SendMsg(bcastMsg)
 				} else {
-					fmt.Println("NOT: SENDING TO: ", uid)
+					log.Println("NOT: SENDING TO: ", uid)
 
 				}
 			}
@@ -108,8 +106,9 @@ func (m *ManagementClient) SendMsg(msg *BroadcastMsg) {
 		if err != nil {
 			log.Printf("ERROR: mngmt: sendMsg uid[%s]: %s\n", m.uid, err.Error())
 		}
+	} else {
+		log.Println("ERROR: mngmt: sendMsg - conn is nil")
 	}
-	log.Println("ERROR: mngmt: sendMsg - conn is nil")
 }
 
 func (m *ManagementClient) serveIncoming(broadcast chan *BroadcastMsg) {
@@ -121,6 +120,7 @@ func (m *ManagementClient) serveIncoming(broadcast chan *BroadcastMsg) {
 		if err != nil {
 			time.Sleep(1 * time.Second)
 			log.Printf("ERROR: mngmt: serverIncoming uid[%s]: %s\n", m.uid, err.Error())
+			m.Alive = false
 			continue
 		}
 		//DONT NEED BECAUSE JUST FORWARDING TO ALL NEIGHBOOR RIGHT NOW
@@ -130,11 +130,12 @@ func (m *ManagementClient) serveIncoming(broadcast chan *BroadcastMsg) {
 		// }
 
 		broadcast <- &BroadcastMsg{
+			uid:  m.uid,
 			Type: mt,
 			Data: data,
 		}
 	}
-	if !m.Alive && m.conn == nil {
+	if !m.Alive || m.conn == nil {
 		log.Println("INFO: mngmt: serverIncoming: m.conn is nil, broadcasting disconnect")
 		msg := struct {
 			Action  string `json:"action"`
@@ -149,6 +150,7 @@ func (m *ManagementClient) serveIncoming(broadcast chan *BroadcastMsg) {
 		}
 		broadcast <- &BroadcastMsg{
 			Type: 1,
+			uid:  m.uid,
 			Data: b,
 		}
 	}
