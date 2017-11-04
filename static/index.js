@@ -83,6 +83,8 @@ window.addEventListener("load", function(evt) {
 });
 
 function updateLocation(dom, x, y) {
-    dom.css("margin-left", x)
-    dom.css("margin-top", y)
+    var xs = x + "px"
+    var ys = y + "px"
+    $(dom).css("margin-left", xs)
+    $(dom).css("margin-top", ys)
 }

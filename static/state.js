@@ -64,6 +64,8 @@ GlobalState.prototype.activateBox = function(sesid) {
                 domid: ui.draggable.attr("id"),
                 xloc: ui.draggable.position().left,
                 yloc: ui.draggable.position().top,
+                normlX: ui.draggable.position().left / dropZone.offsetWidth,
+                normlY: ui.draggable.position().top / dropZone.offsetHeight,
             }))
         } else {
         	// New file

@@ -90,10 +90,10 @@ function Friends() {
 }
 
 Friends.prototype.IsFriendAndIsMe = function(fromUid, toUid) {
-    if (!this.people || !this.meUid) {
+    if (!this.people) {
         return false;
     }
-    return this.people[fromUid] && this.meUid == toUid;
+    return this.people[fromUid] && this.myid == toUid;
 }
 
 // Should be object with keys being the peoples uid, and values being the 
@@ -102,13 +102,13 @@ Friends.prototype.SetFriends = function(people) {
     this.people = people;
 }
 
-Friends.prototype.addFriend = function(person, uid) {
-    this.people[uid] = person;
+Friends.prototype.addFriend = function(personname, uid) {
+    this.people[uid] = personname;
 
-    var listItem = $("<li class=jessesaran id=pal-" + uid + ">")
-    listItem.append($("<div class=online>"))
+    var listItem = $(`<li class=jessesaran id="pal-` + uid + `" name="` + personname + `">`)
     listItem.append($("<img src=http://graph.facebook.com/" + uid + "/picture?width=150&height=150>"));
-    listItem.append($("<h5>").html(person))
+    listItem.append($("<div class=online>"))
+    listItem.append($("<h5>").html(personname))
     
     $("#friendlist").append(listItem)
 
