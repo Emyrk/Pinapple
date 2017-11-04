@@ -22,6 +22,7 @@ window.fbAsyncInit = function() {
 
             FB.api(queryString, function(response) {
                 console.log(JSON.stringify(response));
+                addFriends(response)
             });
         }
     });
@@ -47,9 +48,17 @@ function checkLoginState() {
         
         FB.api(queryString, function(response) {
             console.log(JSON.stringify(response));
+            addFriends(response)
+            
         });
     });
   }
+
+function addFriends(response) {
+    for(var i = 0; i < response.data.length; i++) {
+        globalState.Friends.addFriend(response.data[i].name, response.data[i].id)
+    }
+}
 
 /*************** End of Facebook Code ***************/
 
@@ -71,8 +80,14 @@ Friends.prototype.SetFriends = function(people) {
     this.people = people;
 }
 
-Friends.prototype.addFriend = function(person) {
-    this.people[person] = person;
+Friends.prototype.addFriend = function(person, uid) {
+    this.people[uid] = person;
+    $("#friendlist").append(`
+        <li style="background-image: url(/static/img/maxresdefault.jpg)" class="jessesaran" id="pal-` + uid + `">
+            <div class="online"></div>
+            <h5> ` + person + `</h5>
+        </li>`
+    )
 }
 
 Friends.prototype.SetMeUid = function(meUid) {

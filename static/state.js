@@ -1,5 +1,6 @@
 function GlobalState() {
 	this.Sessions = {}
+    this.Friends = new Friends()
 }
 
 GlobalState.prototype.addSession = function(myid, toid) {
