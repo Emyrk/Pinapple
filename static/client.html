@@ -25,15 +25,23 @@
         </div>
     </div>
     <div class="appContent">
-        <div class="mainScreen">
+        <div class="mainScreen onlyone activeOnly">
             <h3> LOGO</h3>
             <p class="direc"> Select a friend to start sharing</p>
             <p class="direc"> Notifications</p>
         </div>
-        <div class="confirmShare">
-            <h4> Click to start sharing with <span id="confirm-share-name"></span> </h4>
+        <div class="confirmShare onlyone" id="confirmShare">
+            <h4> Click to start sharing with <span id="confirm-share-name" uid=""></span> </h4>
             <button type="button" onclick="startShare()"> Share </button>
         </div>
+        <div id="wrapper">
+            <div id="download-container">
+                <div class="upload-drop-zone" id="drop-zone" style="display: none;">
+                    Just drag and drop files here
+                </div>
+            </div>
+        </div>
+
     </div>
      <div id="fb-root"></div>
     <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"
@@ -55,7 +63,7 @@ UserID: <input class="idset" id="userid" type="text" name="fname"><br> <p id="my
 <!--<img src="/static/img/rodel.png" id="img1" class="draggable" shared="true"></img>-->
 
 
-
+<!-- 
 <div id="wrapper">
 
     <div id="download-container">
@@ -65,7 +73,7 @@ UserID: <input class="idset" id="userid" type="text" name="fname"><br> <p id="my
     </div>
 
     <img src="/static/img/rodel.png" id="img1" class="draggable" shared="true"></img>
-</div>
+</div> -->
 
 <a id="download-link" href="" download> Download</a>
 <a id="hidden-download" style="display: none;" download><a/>

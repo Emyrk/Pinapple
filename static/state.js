@@ -3,18 +3,21 @@ function GlobalState() {
     this.Friends = new Friends()
 }
 
-GlobalState.prototype.addSession = function(myid, toid) {
-	var sesid = getSession(myid, toid)
+GlobalState.prototype.addSession = function(toid) {
+	var sesid = getSession(this.Friends.myid, toid)
+    if(this.Sessions[sesid]  != undefined) {
+        return
+    }
 	$("#download-container").append(
 	`
-	 <div class="upload-drop-zone" id="` + sesid + `" toid="` + toid + `" myid="` + myid + `" >
+	 <div class="upload-drop-zone onlyone" id="` + sesid + `" toid="` + toid + `" myid="` + myid + `" >
         Just drag and drop files here
      </div>
      `)
 
 	this.activateBox(sesid)
 
-    this.Sessions[sesid] = new Session(myid, toid)
+    this.Sessions[sesid] = new Session(this.Friends.myid, toid)
 }
 
 
@@ -98,6 +101,7 @@ GlobalState.prototype.activateBox = function(sesid) {
 	dropZone.addEventListener("drop", ondrop, false);
 	dropZone.addEventListener("dragenter", ondragenter, false);
     dropZone.addEventListener("dragover", ondragover, false);
+    return dom
 }
 
 var globalState = new GlobalState()

@@ -12,7 +12,7 @@ window.addEventListener("load", function(evt) {
         console.log("click");
         $('.mainScreen').hide();
         $('.confirmShare').show();  
-        $('.online').removeClass().addClass( "active" );;  
+        $('.online').removeClass().addClass( "active" );  
     });
 
 

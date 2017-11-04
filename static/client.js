@@ -17,8 +17,12 @@ window.fbAsyncInit = function() {
         
         // if the user is logged in, return a list of their friends
         if (response.status == "connected"){
+            var queryString = "/me"
+            FB.api(queryString, function(response) {
+                globalState.Friends.myid = response.id
+            });
 
-            var queryString = "/me/friends"
+            queryString = "/me/friends"
 
             FB.api(queryString, function(response) {
                 console.log(JSON.stringify(response));
@@ -42,9 +46,12 @@ window.fbAsyncInit = function() {
 function checkLoginState() {
     FB.getLoginStatus(function(response) {
 
-        console.log(response)
-
-        var queryString = "/me/friends"
+        var queryString = "/me"
+        FB.api(queryString, function(response) {
+            globalState.Friends.myid = response.id
+        });
+        
+        queryString = "/me/friends"
         
         FB.api(queryString, function(response) {
             console.log(JSON.stringify(response));
@@ -55,8 +62,10 @@ function checkLoginState() {
   }
 
 function addFriends(response) {
-    for(var i = 0; i < response.data.length; i++) {
-        globalState.Friends.addFriend(response.data[i].name, response.data[i].id)
+    if(response.data.length > 0) {
+        for(var i = 0; i < response.data.length; i++) {
+            globalState.Friends.addFriend(response.data[i].name, response.data[i].id)
+        }
     }
 }
 
@@ -90,9 +99,15 @@ Friends.prototype.addFriend = function(person, uid) {
     )
 
     $("#pal-"+uid).on('click', function(){
-        $("#confirm-share-name").text($(this).attr("name"));
-        $('#mainScreen').hide()
-        $('.confirmShare').show();  
+        var sesid = getSession(uid, globalState.Friends.myid)
+        $('#mainScreen').removeClass("activeOnly");
+        if(globalState.Sessions[sesid] != undefined) {
+            $("#"+sesid).addClass("activeOnly")
+        } else {
+            $("#confirm-share-name").text($(this).attr("name"));
+            $("#confirm-share-name").attr("uid", uid);
+            $('#confirmShare').addClass("activeOnly");
+        }
     })
 }
 

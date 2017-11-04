@@ -46,3 +46,11 @@
   height: 70px;
   width: 70px;
 }
+
+.onlyone {
+  display: none;
+}
+
+.onlyone.activeOnly {
+  display: block;
+}

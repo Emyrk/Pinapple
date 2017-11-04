@@ -54,3 +54,17 @@ $( function() {
   	}
   });
 });
+
+function startShare() {
+  var uid = $('#confirm-share-name').attr("uid")
+  $('.confirmShare').hide();
+  $(".confirmShare").removeClass("activeOnly")
+  var ses = getSession(globalState.Friends.myid, uid)
+  globalState.addSession(ses)
+  $("#"+ ses).addClass("activeOnly")
+
+  
+  // $('.').show();  
+  //show box the drag stuff in
+  //show pening for friend response
+}
