@@ -104,7 +104,6 @@ Friends.prototype.SetFriends = function(people) {
 
 Friends.prototype.addFriend = function(person, uid) {
     this.people[uid] = person;
-<<<<<<< HEAD
 
     var listItem = $("<li class=jessesaran id=pal-" + uid + ">")
     listItem.append($("<img src=http://graph.facebook.com/" + uid + "/picture?type=normal>"));
@@ -112,13 +111,6 @@ Friends.prototype.addFriend = function(person, uid) {
     listItem.append($("<h5>").html(person))
     
     $("#friendlist").append(listItem)
-=======
-    $("#friendlist").append(`
-        <li style="background-image: url(/static/img/maxresdefault.jpg)" class="jessesaran" id="pal-` + uid + `" name="` + person + `">
-            <div class="online"></div>
-            <h5> ` + person + `</h5>
-        </li>`
-    )
 
     $("#pal-"+uid).on('click', function(){
         $(".activeOnly").removeClass("activeOnly")
@@ -132,7 +124,6 @@ Friends.prototype.addFriend = function(person, uid) {
             $('#confirmShare').addClass("activeOnly");
         }
     })
->>>>>>> origin/master
 }
 
 Friends.prototype.SetMeUid = function(meUid) {
