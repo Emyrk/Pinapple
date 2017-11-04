@@ -3,7 +3,7 @@
   color: #ccc;
   border-style: dashed;
   border-color: #ccc;
-  line-height: 200px;
+  height: 200px;
   text-align: center;
 }
 
@@ -27,8 +27,22 @@
 .over {
   border: solid 5px purple;
 }
+
+.icon{
+  border: solid 1px;
+  height: 55px;
+  width: 55px;
+}
+
+.fileName{
+  color:black;
+  font-size:12px;
+}
+
 .draggable
 {
-  border: solid 2px gray;
   position: absolute;
+  text-align:center;
+  height: 70px;
+  width: 70px;
 }

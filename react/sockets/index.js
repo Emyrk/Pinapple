@@ -20,14 +20,18 @@ window.addEventListener("load", function(evt) {
         }
         if(ui != undefined && ui.draggable.attr("shared")) {
             console.log("Attr already set")
+
+            normlX = ui.draggable.position().left / dropZone.offsetWidth;
+            normlY = ui.draggable.position().top / dropZone.offsetHeight;
+
             globalWs.ws.send(JSON.stringify({
                 action: "update-location",
                 toUid: "b",
                 fromUid: document.getElementById('userid').value,
                 // files: e.dataTransfer.files,
                 domid: ui.draggable.attr("id"),
-                xloc: ui.draggable.position().left,
-                yloc: ui.draggable.position().top,
+                normlX: normlX,
+                normlY: normlY,
             }))
         } else {
             globalWs.ws.send(JSON.stringify({
@@ -79,6 +83,6 @@ window.addEventListener("load", function(evt) {
 });
 
 function updateLocation(dom, x, y) {
-    dom.css("left", x)
-    dom.css("top", y)
+    dom.css("margin-left", x)
+    dom.css("margin-top", y)
 }
