@@ -30,9 +30,9 @@ window.fbAsyncInit = function() {
             FB.api(queryString, function(response) {
                 console.log(JSON.stringify(response));
                 addFriends(response)
-                var profilePicQS = $(`<img src=http://graph.facebook.com/` + response.data[0].id + `/picture?type=normal>`)
-                console.log(profilePicQS)
-                $(document.body).append(profilePicQS)
+                // var profilePicQS = $(`<img src=http://graph.facebook.com/` + response.data[0].id + `/picture?type=normal>`)
+                // console.log(profilePicQS)
+                // $(document.body).append(profilePicQS)
             });
         }
     });
@@ -118,10 +118,12 @@ Friends.prototype.addFriend = function(person, uid) {
         $('#mainScreen').removeClass("activeOnly");
         if(globalState.Sessions[sesid] != undefined) {
             $("#"+sesid).addClass("activeOnly")
+            globalState.activeFriend = uid
         } else {
             $("#confirm-share-name").text($(this).attr("name"));
             $("#confirm-share-name").attr("uid", uid);
             $('#confirmShare').addClass("activeOnly");
+            globalState.activeFriend = uid
         }
     })
 }

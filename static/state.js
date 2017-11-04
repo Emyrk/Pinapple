@@ -1,6 +1,7 @@
 function GlobalState() {
 	this.Sessions = {}
     this.Friends = new Friends()
+    this.activeFriend = ""
 }
 
 GlobalState.prototype.addSession = function(toid) {
@@ -26,7 +27,7 @@ function Session(myid, toid) {
 	this.toid = toid
 
 	this.Con = new Connection()
-	this.Con.connect()
+	this.Con.connect(myid, getSession(myid, toid))
 }
 
 GlobalState.prototype.activateBox = function(sesid) {
@@ -56,9 +57,9 @@ GlobalState.prototype.activateBox = function(sesid) {
         	console.log("Attr already set")
         	globalWs.ws.send(JSON.stringify({
         		action: "update-location",
-        		toUid: $(element).attr("toid"),//"b",
+        		toUid: globalState.activeFriend,//"b",
         		fromUid: globalState.Friends.myid,//document.getElementById('userid').value,
-        		sesid: $(element).attr("id"),
+        		sesid: getSession(globalState.activeFriend, globalState.Friends.myid) ,
                 // files: e.dataTransfer.files,
                 domid: ui.draggable.attr("id"),
                 xloc: ui.draggable.position().left,
@@ -68,9 +69,9 @@ GlobalState.prototype.activateBox = function(sesid) {
         	// New file
         	globalWs.ws.send(JSON.stringify({
         		action: "share-files",
-        		toUid: $(element).attr("toid"),//"b",
+        		toUid: globalState.activeFriend,
         		fromUid: globalState.Friends.myid,
-        		sesid: $(element).attr("id"),
+        		sesid: getSession(globalState.activeFriend, globalState.Friends.myid),
         		filename: e.dataTransfer.files[0].name,
         		xloc: e.offsetX-35,
                 yloc: e.offsetY-35,
