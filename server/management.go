@@ -132,7 +132,13 @@ func (m *ManagementClient) serveIncoming(broadcast chan *BroadcastMsg) {
 	}
 	if !m.Alive && m.conn == nil {
 		log.Println("INFO: mngmt: serverIncoming: m.conn is nil, broadcasting disconnect")
-		msg := NewMesage(ACTION_USER_DISCONNECTED, m.uid)
+		msg := struct {
+			Action  string `json:"action"`
+			FromUid string `json:"fromUid"`
+		}{
+			ACTION_USER_DISCONNECTED,
+			m.uid,
+		}
 		b, err := msg.MarshalMessage()
 		if err != nil {
 			log.Printf("ERROR: mngmt: serverIncoming: failed to marshal failure: %s\n", err.Error())
