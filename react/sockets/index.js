@@ -83,4 +83,24 @@ window.addEventListener("load", function(evt) {
         return false;
     };
 
+    var dropZone = document.getElementById('drop-zone');
+
+    dropZone.ondrop = function(e) {
+        e.preventDefault();
+        this.className = 'upload-drop-zone';
+
+        // startUpload(e.dataTransfer.files)
+    }
+
+    dropZone.ondragover = function(e) {
+        this.className = 'upload-drop-zone drop';
+        console.log("DRAG OVER: ", e.)
+        return false;
+    }
+
+    dropZone.ondragleave = function() {
+        this.className = 'upload-drop-zone';
+        return false;
+    }
+
 });
