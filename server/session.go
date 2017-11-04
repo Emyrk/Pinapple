@@ -94,27 +94,54 @@ func (s *SessionManager) connect(w http.ResponseWriter, r *http.Request) {
 	s.sessionLock.Unlock()
 
 	var _ = con
+}
 
+// Close inactive sessions
+func (sm *SessionManager) Manage() {
+	ticker := time.NewTicker(time.Second * 5)
+	for _ = range ticker.C {
+		for _, s := range sm.Sessions {
+			if !s.ConnectionOne.alive && !s.ConnecitonTwo.alive {
+				if s.lastEmpty.Before(time.Now().Add(-10 * time.Second)) {
+					fmt.Println("DEL:ETE")
+					s.Close()
+					sm.sessionLock.Lock()
+					fmt.Printf("Session %s was removed. No users\n", s.SessionID)
+					delete(sm.Sessions, s.SessionID)
+					sm.sessionLock.Unlock()
+				}
+			} else {
+				s.lastEmpty = time.Now()
+			}
+		}
+	}
 }
 
 type Session struct {
 	SessionID     string
 	ConnectionOne *Connection
 	ConnecitonTwo *Connection
+
+	lastEmpty time.Time
 }
 
 func NewSession() *Session {
 	s := new(Session)
-	s.ConnectionOne = new(Connection)
-	s.ConnecitonTwo = new(Connection)
+	s.ConnectionOne = NewBlankConnection()
+	s.ConnecitonTwo = NewBlankConnection()
 
 	return s
 }
 
 func (s *Session) Status() string {
-	one := fmt.Sprintf("  Connection A: %s", s.ConnectionOne.ID)
-	two := fmt.Sprintf("  Connection B: %s", s.ConnecitonTwo.ID)
-	return fmt.Sprintf("-- SessionID : %s --\n%s\n%s\n-- --", s.SessionID, one, two)
+	one := fmt.Sprintf("  Connection A: %s, Alive: %t", s.ConnectionOne.ID, s.ConnectionOne.alive)
+	two := fmt.Sprintf("  Connection B: %s, Alive: %t", s.ConnecitonTwo.ID, s.ConnecitonTwo.alive)
+	return fmt.Sprintf("-- SessionID : %s --\n%s\n%s\n-- %s --", s.SessionID, one, two, s.lastEmpty)
+}
+
+func (s *Session) Close() {
+	s.ConnectionOne.Close()
+	s.ConnecitonTwo.Close()
 }
 
 // Add connection to exisiting connection
@@ -136,10 +163,19 @@ func (s *Session) AddConnection(c *Connection) error {
 }
 
 type Connection struct {
-	Conn *websocket.Conn
-	ID   string
+	Conn  *websocket.Conn
+	ID    string
+	alive bool
 
 	Quit chan struct{}
+}
+
+func NewBlankConnection() *Connection {
+	c := new(Connection)
+	c.alive = false
+	c.Quit = make(chan struct{}, 2)
+
+	return c
 }
 
 func NewConnection(wc *websocket.Conn, id string) *Connection {
@@ -160,6 +196,7 @@ func (c *Connection) Replace(b *Connection) {
 }
 
 func (c *Connection) Echo(con *Connection) {
+	c.alive = true
 	for {
 		select {
 		case <-c.Quit:
@@ -170,10 +207,14 @@ func (c *Connection) Echo(con *Connection) {
 		mt, message, err := c.Conn.ReadMessage()
 		fmt.Println("READ: ", string(message))
 		if err != nil {
+			// It's closed
+			c.alive = false
 			// Probably should manage this better
 			time.Sleep(1 * time.Second)
 			log.Println(err)
 			continue
+		} else {
+			c.alive = true
 		}
 
 		// Partner not there
@@ -195,8 +236,10 @@ func (c *Connection) Echo(con *Connection) {
 }
 
 func (c *Connection) Close() {
+	if c.Conn != nil {
+		c.Conn.Close()
+	}
 	c.Quit <- struct{}{}
-	c.Conn.Close()
 }
 
 // func echo(w http.ResponseWriter, r *http.Request) {

@@ -16,5 +16,6 @@ func main() {
 	flag.Parse()
 	sm := server.NewSessionManager()
 	go sm.Listen(*addr)
+	go sm.Manage()
 	Control(sm)
 }
