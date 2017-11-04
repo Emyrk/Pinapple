@@ -23,6 +23,9 @@ window.fbAsyncInit = function() {
             FB.api(queryString, function(response) {
                 console.log(JSON.stringify(response));
                 addFriends(response)
+                var profilePicQS = $(`<img src=http://graph.facebook.com/` + response.data[0].id + `/picture?type=normal>`)
+                console.log(profilePicQS)
+                $(document.body).append(profilePicQS)
             });
         }
     });
@@ -82,12 +85,13 @@ Friends.prototype.SetFriends = function(people) {
 
 Friends.prototype.addFriend = function(person, uid) {
     this.people[uid] = person;
-    $("#friendlist").append(`
-        <li style="background-image: url(/static/img/maxresdefault.jpg)" class="jessesaran" id="pal-` + uid + `">
-            <div class="online"></div>
-            <h5> ` + person + `</h5>
-        </li>`
-    )
+
+    var listItem = $("<li class=jessesaran id=pal-" + uid + ">")
+    listItem.append($("<img src=http://graph.facebook.com/" + uid + "/picture?type=normal>"));
+    listItem.append($("<div class=online>"))
+    listItem.append($("<h5>").html(person))
+    
+    $("#friendlist").append(listItem)
 }
 
 Friends.prototype.SetMeUid = function(meUid) {
