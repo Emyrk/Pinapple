@@ -67,7 +67,9 @@ GlobalState.prototype.activateBox = function(sesid) {
         		toUid: $(element).attr("toid"),//"b",
         		fromUid: $(element).attr("myid"),
         		sesid: $(element).attr("id"),
-        		files: e.dataTransfer.files,
+        		filename: e.dataTransfer.files[0].name,
+        		xloc: e.offsetX-35,
+                yloc: e.offsetY-35,
         	}))
         	// ui.draggable.attr("shared", true)
         	console.log("Attr set")
@@ -94,6 +96,7 @@ GlobalState.prototype.activateBox = function(sesid) {
 	var dropZone = document.getElementById(sesid);
 	dropZone.addEventListener("drop", ondrop, false);
 	dropZone.addEventListener("dragenter", ondragenter, false);
-    dropZone.addEventListener("dragover", ondragover, false);
-
+    dropZone.addEventListener("dragover", ondragover, false);=
 }
+
+var globalState = new GlobalState()

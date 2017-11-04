@@ -87,6 +87,10 @@ GlobalWs.prototype.Create = function() {
                 if(friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //if this uid is my friend
                     // TODO show that a file is available for download
+                    if($("#" + data.sesid) != undefined) {
+                        addFileToDropZone(data.sesid, data.filename, data.xloc, data.yloc)
+                    } 
+
                 } else {
                     console.log("INFO: no friends for share-files")
                 }
