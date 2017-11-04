@@ -101,7 +101,7 @@ func (sm *SessionManager) Manage() {
 	ticker := time.NewTicker(time.Second * 5)
 	for _ = range ticker.C {
 		for _, s := range sm.Sessions {
-			if !s.ConnectionOne.alive && !s.ConnecitonTwo.alive {
+			if !s.ConnectionOne.alive && !s.ConnectionTwo.alive {
 				if s.lastEmpty.Before(time.Now().Add(-10 * time.Second)) {
 					fmt.Println("DEL:ETE")
 					s.Close()
@@ -120,7 +120,7 @@ func (sm *SessionManager) Manage() {
 type Session struct {
 	SessionID     string
 	ConnectionOne *Connection
-	ConnecitonTwo *Connection
+	ConnectionTwo *Connection
 
 	lastEmpty time.Time
 }
@@ -128,34 +128,34 @@ type Session struct {
 func NewSession() *Session {
 	s := new(Session)
 	s.ConnectionOne = NewBlankConnection()
-	s.ConnecitonTwo = NewBlankConnection()
+	s.ConnectionTwo = NewBlankConnection()
 
 	return s
 }
 
 func (s *Session) Status() string {
 	one := fmt.Sprintf("  Connection A: %s, Alive: %t", s.ConnectionOne.ID, s.ConnectionOne.alive)
-	two := fmt.Sprintf("  Connection B: %s, Alive: %t", s.ConnecitonTwo.ID, s.ConnecitonTwo.alive)
+	two := fmt.Sprintf("  Connection B: %s, Alive: %t", s.ConnectionTwo.ID, s.ConnectionTwo.alive)
 	return fmt.Sprintf("-- SessionID : %s --\n%s\n%s\n-- %s --", s.SessionID, one, two, s.lastEmpty)
 }
 
 func (s *Session) Close() {
 	s.ConnectionOne.Close()
-	s.ConnecitonTwo.Close()
+	s.ConnectionTwo.Close()
 }
 
 // Add connection to exisiting connection
 func (s *Session) AddConnection(c *Connection) error {
 	// Check IDs?
-	if s.ConnectionOne.Conn == nil {
+	if s.ConnectionOne.Conn == nil || !s.ConnectionOne.alive {
 		s.ConnectionOne.Replace(c)
-		go s.ConnectionOne.Echo(s.ConnecitonTwo)
+		go s.ConnectionOne.Echo(s.ConnectionTwo)
 		return nil
 	}
 
-	if s.ConnecitonTwo.Conn == nil {
-		s.ConnecitonTwo.Replace(c)
-		go s.ConnecitonTwo.Echo(s.ConnectionOne)
+	if s.ConnectionTwo.Conn == nil || !s.ConnectionTwo.alive {
+		s.ConnectionTwo.Replace(c)
+		go s.ConnectionTwo.Echo(s.ConnectionOne)
 		return nil
 	}
 
