@@ -11,20 +11,20 @@ GlobalWs.prototype.Create = function() {
 
     //Set global socket
     globalWs.ws.onopen = function(evt) {
-        print("OPEN GLOBAL");
+        console.log("OPEN GLOBAL");
         globalWs.ws.send(JSON.stringify({
             action: "user-connected",
             fromUid: document.getElementById('userid').value,
         }))
     }
     globalWs.ws.onclose = function(evt) {
-        print("CLOSE GLOBAL");
+        console.log("CLOSE GLOBAL");
         //TODO gray out screen and say it has been closed
         globalWs = null;
     }
     globalWs.ws.onmessage = function(evt) {
         evt.data = JSON.parse(evt.data);
-        print("RESPONSE: " + evt.data);
+        console.log("RESPONSE: " + evt.data);
         switch (evt.data.action) {
             case "user-disconnected":
                 //msg sent by server when user disconnects
