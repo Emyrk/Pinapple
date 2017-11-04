@@ -1,5 +1,7 @@
 /*************** Start of Facebook Code ***************/
 
+var facebookinit = false
+
 // Called whenever the page is loaded
 window.fbAsyncInit = function() {
 	FB.init({
@@ -29,6 +31,10 @@ window.fbAsyncInit = function() {
                 addFriends(response)
             });
         }
+        if(!facebookinit) {
+            globalWs.Create()
+            facebookinit = true
+        }
     });
 
 };
@@ -56,8 +62,12 @@ function checkLoginState() {
         FB.api(queryString, function(response) {
             console.log(JSON.stringify(response));
             addFriends(response)
-            
         });
+
+        if(!facebookinit) {
+            globalWs.Create()
+            facebookinit = true
+        }
     });
   }
 
