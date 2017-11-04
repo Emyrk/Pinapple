@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/static/client.css">
+    <link rel="stylesheet" type="text/css" href="/static/global.css">
+    <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
+    <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
+    <script src="/static/client.js"></script>
+    <script src="/static/management.js"></script>
+    <script src="/static/index.js"></script>
+    <script src="/static/display.js"></script>
+    <script src="/static/state.js"></script>
+</head>
+<body>
+    <div class="friendsList">
+        <h3> Pals </h3>
+        <div class="pals">
+            <ul>
+                <li style="background-image: url(/static/img/maxresdefault.jpg)" class="jessesaran">
+                    <div class="online"></div>
+                    <h5> Jesse Saran </h5>
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="appContent">
+        <div class="mainScreen">
+            <h3> LOGO</h3>
+            <p class="direc"> Select a friend to start sharing</p>
+            <p class="direc"> Notifications</p>
+        </div>
+        <div class="confirmShare">
+            <h4> Click to start sharing with {this.name} </h4>
+            <button type="button" onclick="startShare()"> Share </button>
+        </div>
+    </div>
+    <!-- <div id="fb-root"></div>
+    <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"
+    data-scope="user_friends"
+<<<<<<< HEAD
+    onlogin="checkLoginState()"></div>
+    <img src="/static/img/rodel.png" class="draggable" id="img1"></img>
+    <img src="/static/img/rodel.png" class="draggable" id="img2"></img>
+=======
+onlogin="checkLoginState()"></div>-->
+<h1>
+    Fake Login
+</h1>
+UserID: <input class="idset" id="userid" type="text" name="fname"><br> <p id="myid"></p>
+<button class="idset" id="setuserid">Login with id</button>
+<hr>
+<div>
+    <h1>Friends</h1>
+    FriendID: <input id="friendid" type="text" name="fname"><br> <p id="myid"></p>
+    <button id="addfriendid">Add Friend ID</button>
+    <ul id="friends"></ul>
+    <hr>
+</div>
+<!--<img src="/static/img/rodel.png" id="img1" class="draggable" shared="true"></img>-->
+
+
+
+<div id="wrapper">
+
+    <div id="download-container">
+        <div class="upload-drop-zone" id="drop-zone" style="display: none;">
+            Just drag and drop files here
+        </div>
+    </div>
+
+    <img src="/static/img/rodel.png" id="img1" class="draggable" shared="true"></img>
+</div>
+
+<a id="download-link" href="" download> Download</a>
+<a id="hidden-download" style="display: none;" download><a/>
+</body>
+</html>

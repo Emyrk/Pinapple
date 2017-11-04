@@ -1,0 +1,50 @@
+<html lang="en">
+    <head>
+      <meta charset="utf-8"/>
+      <title>Pinapple</title>
+
+      <!-- CSS STYLE -->
+      <link rel="stylesheet" type="text/css" href="./global.css">
+
+      <!-- INTERCTION PACKAGES -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+    
+
+    <!-- EXTERNAL JS -->
+    <script type="text/javascript" src="script.js"></script>  
+
+    <script type="text/javascript">
+    function startShare() {
+        
+        $('.confirmShare').hide();
+        // $('.').show();  
+        //show box the drag stuff in
+        //show pening for friend response
+    }
+    </script>
+    </head>
+    <body>
+        <div class="friendsList">
+            <h3> Pals </h3>
+            <div class="pals">
+                <ul>
+                    <li style="background-image: url(./media/maxresdefault.jpg)" class="jessesaran">
+                        <div  class="online"></div>
+                        <h5> Jesse Saran </h5>
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="appContent">
+            <div class="mainScreen">
+                <h3> LOGO</h3>
+                <p class="direc"> Select a friend to start sharing</p>
+                <p class="direc"> Notifications</p>
+            </div>
+            <div class="confirmShare">
+                <h4> Click to start sharing with {this.name} </h4>
+                <button type="button" onclick="startShare()"> Share </button>
+            </div>
+        </div>
+    </body>
+    </html>

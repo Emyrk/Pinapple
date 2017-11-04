@@ -1,7 +1,6 @@
 // import the controllers
 // This only specifies the folder name, which means it will automatically pull the index.js file
 const js = require('./js');
-const components = require('./components');
 // console.dir(controllers);
 // function to attach routes
 const router = (app) => {

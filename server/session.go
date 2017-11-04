@@ -43,11 +43,19 @@ func NewSessionManager() *SessionManager {
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
-	homeTemplate, err := template.New("client.html").ParseFiles(testTemplate)
+	homeTemplate, err := template.New("client.html").ParseFiles(clientTemplate)
 	if err != nil {
 		fmt.Println("Error rendering home template: ", err.Error())
 	}
 	homeTemplate.Execute(w, "ws://"+r.Host+"/connect")
+}
+
+func login(w http.ResponseWriter, r *http.Request) {
+	loginTemplate, err := template.New("login.html").ParseFiles(loginTemplate)
+	if err != nil {
+		fmt.Println("Error rendering home template: ", err.Error())
+	}
+	loginTemplate.Execute(w, "ws://"+r.Host+"/connect")
 }
 
 func (s *SessionManager) Listen(port int) {
@@ -56,6 +64,7 @@ func (s *SessionManager) Listen(port int) {
 	fs := http.FileServer(http.Dir(baseDir))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", home)
+	http.HandleFunc("/login", login)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
 }
 
