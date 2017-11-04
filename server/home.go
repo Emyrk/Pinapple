@@ -13,7 +13,7 @@ var testTemplate = filepath.Join(baseDir, "client.html")
 
 func SetBaseDir(dir string) {
 	baseDir = dir
-	fmt.Println(baseDir)
+	testTemplate = filepath.Join(baseDir, "client.html")
 }
 
 // var homeTemplate = template.Must(template.New("").ParseFiles(testTemplate))
