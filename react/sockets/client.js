@@ -19,23 +19,23 @@ function makeTextFile (text) {
 }
 
 Connection.prototype.connect = function(uid, sesid) {
-    if (ws) {
+    if (this.ws) {
         return false;
     }
 
     var query = "?userid=" + uid + "&sessionid=" + sesid
 
-    ws = new WebSocket("localhost:8080/connect"+query);
-    ws.onopen = function(evt) {
+    this.ws = new WebSocket("localhost:8080/connect"+query);
+    this.ws.onopen = function(evt) {
         // print("OPEN");
         console.log("OPEN")
     }
-    ws.onclose = function(evt) {
+    this.ws.onclose = function(evt) {
         //print("CLOSE");
         console.log("CLOSE")
-        ws = null;
+        this.ws = null;
     }
-    ws.onmessage = function(evt) {
+    this.ws.onmessage = function(evt) {
         // print("RESPONSE: " + evt.data);
         console.log("RESPONSE: " + evt.data);
         // var link = document.getElementById('downloadlink');
@@ -43,13 +43,31 @@ Connection.prototype.connect = function(uid, sesid) {
         this.link.download = "info.txt";
         // DO SOME ACTION
     }
-    ws.onerror = function(evt) {
+    this.ws.onerror = function(evt) {
         // print("ERROR: " + evt.data);
         console.log("ERROR: " + evt.data);
     }
     return false;
 };
 
-Connection.prototype.setLink(link) {
+Connection.prototype.setLink = function(link) {
     this.link = link
+}
+
+Connection.prototype.send = function(data) {
+    if (!this.ws) {
+        return false;
+    }
+    //print("SEND: " + input.value);
+    consoel.log(("SEND: " + input.value);)
+    this.ws.send(input.value);
+    return true;
+}
+
+Connection.prototype.close = function() {
+    if (!this.ws) {
+        return false;
+    }
+    this.ws.close();
+    return true;
 }
