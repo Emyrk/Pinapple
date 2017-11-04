@@ -4,6 +4,10 @@ import (
 	"encoding/json"
 )
 
+const (
+	ACTION_USER_DISCONNECTED = "user-disconnected"
+)
+
 type Msg struct {
 	Action string      `json:"action"`
 	Data   interface{} `json:"data"`

@@ -10,12 +10,6 @@ import (
 	"github.com/gorilla/websocket"
 )
 
-const (
-	REQUEST_ACTION_CONNECT = "connect"
-
-	RESPONSE_ACTION_KILL = "kill"
-)
-
 type ManagementHandler struct {
 	Clients    map[string]*ManagementClient
 	clientLock sync.RWMutex
@@ -108,10 +102,13 @@ type ManagementClient struct {
 }
 
 func (m *ManagementClient) SendMsg(msg *BroadcastMsg) {
-	err := m.conn.WriteMessage(msg.Type, msg.Data)
-	if err != nil {
-		log.Printf("ERROR: mngmt: sendMsg uid[%s]: %s\n", m.uid, err.Error())
+	if conn != nil {
+		err := m.conn.WriteMessage(msg.Type, msg.Data)
+		if err != nil {
+			log.Printf("ERROR: mngmt: sendMsg uid[%s]: %s\n", m.uid, err.Error())
+		}
 	}
+	log.Println("ERROR: mngmt: sendMsg - conn is nil")
 }
 
 func (m *ManagementClient) serveIncoming(broadcast chan *BroadcastMsg) {
@@ -133,7 +130,16 @@ func (m *ManagementClient) serveIncoming(broadcast chan *BroadcastMsg) {
 			Data: data,
 		}
 	}
-	if m.conn == nil {
-		log.Println("INFO: mngmt: serverIncoming: m.conn is nil, closing")
+	if !m.Alive && m.conn == nil {
+		log.Println("INFO: mngmt: serverIncoming: m.conn is nil, broadcasting disconnect")
+		msg := NewMesage(ACTION_USER_DISCONNECTED, m.uid)
+		b, err := msg.MarshalMessage()
+		if err != nil {
+			log.Printf("ERROR: mngmt: serverIncoming: failed to marshal failure: %s\n", err.Error())
+		}
+		broadcast <- &BroadcastMsg{
+			Type: 1,
+			Data: b,
+		}
 	}
 }

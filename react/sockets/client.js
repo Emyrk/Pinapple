@@ -1,3 +1,24 @@
+function Friends() {
+
+}
+
+Friends.prototype.IsFriendAndIsMe = function(fromUid, toUid) {
+    if (!this.people || !this.meUid) {
+        return false;
+    }
+    return this.people[fromUid] && this.meUid == toUid;
+}
+
+// Should be object with keys being the peoples uid, and values being the 
+// friends objects
+Friends.prototype.SetFriends = function(people) {
+    this.people = people;
+}
+
+Friends.prototype.SetMeUid = function(meUid) {
+    this.meUid = meUid;
+}
+
 function Connection() {
 
 }
