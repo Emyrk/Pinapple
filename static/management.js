@@ -112,8 +112,17 @@ GlobalWs.prototype.Create = function() {
                     // TODO show that a file is available for download
                     if($("#" + data.sesid) != undefined) {
                         addFileToDropZone(data.sesid, data.filename, data.xloc, data.yloc)
-                    } 
-
+                    }
+                    //bounce effect
+                    var pal = $("#pal-" + data.fromUid);
+                    pal.effect("bounce", {times:3}, 1250);
+                    var count = parseInt(pal.find(".online").html());
+                    if(isNaN(count)) {
+                        count = 1;
+                    } else {
+                        count++;
+                    }
+                    pal.find(".online").html(count);
                 } else {
                     console.log("INFO: no friends for share-files")
                 }
