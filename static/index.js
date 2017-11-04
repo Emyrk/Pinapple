@@ -7,6 +7,15 @@ var globalWs = new GlobalWs();
 window.addEventListener("load", function(evt) {
     var dropZone = document.getElementById('drop-zone');
 
+    //TODO STEVE DO THIS    
+    $('.jessesaran').click(function () {
+        console.log("click");
+        $('.mainScreen').hide();
+        $('.confirmShare').show();  
+        $('.online').removeClass().addClass( "active" );;  
+    });
+
+
     ondrop = function(e, ui) {
         e.stopPropagation();
         e.preventDefault();

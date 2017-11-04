@@ -6,7 +6,7 @@ import (
 	"path/filepath"
 )
 
-var baseDir = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "Emyrk", "Pinapple", "react", "sockets")
+var baseDir = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "Emyrk", "Pinapple", "static")
 
 var clientTemplate = filepath.Join(baseDir, "client.html")
 var loginTemplate = filepath.Join(baseDir, "login.html")
