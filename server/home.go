@@ -2,6 +2,7 @@ package server
 
 import (
 	// "html/template"
+	"fmt"
 	"os"
 	"path/filepath"
 )
@@ -9,6 +10,11 @@ import (
 var baseDir = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "Emyrk", "Pinapple", "react", "sockets")
 
 var testTemplate = filepath.Join(baseDir, "client.html")
+
+func SetBaseDir(dir string) {
+	baseDir = dir
+	fmt.Println(baseDir)
+}
 
 // var homeTemplate = template.Must(template.New("").ParseFiles(testTemplate))
 /*
