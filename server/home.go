@@ -10,6 +10,11 @@ var baseDir = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "Emyrk", "
 
 var testTemplate = filepath.Join(baseDir, "client.html")
 
+func SetBaseDir(dir string) {
+	baseDir = dir
+	testTemplate = filepath.Join(baseDir, "client.html")
+}
+
 // var homeTemplate = template.Must(template.New("").ParseFiles(testTemplate))
 /*
 var _ = template.Must(template.New("").Parse(`

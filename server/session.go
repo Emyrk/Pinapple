@@ -52,6 +52,7 @@ func home(w http.ResponseWriter, r *http.Request) {
 
 func (s *SessionManager) Listen(port int) {
 	http.HandleFunc("/connect", s.connect)
+	fmt.Println(baseDir)
 	fs := http.FileServer(http.Dir(baseDir))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", home)
@@ -110,7 +111,7 @@ func (sm *SessionManager) Manage() {
 		for _, s := range sm.Sessions {
 			if !s.ConnectionOne.alive && !s.ConnectionTwo.alive {
 				if s.lastEmpty.Before(time.Now().Add(-10 * time.Second)) {
-					fmt.Println("DEL:ETE")
+					fmt.Println("DELETE")
 					s.Close()
 					sm.sessionLock.Lock()
 					fmt.Printf("Session %s was removed. No users\n", s.SessionID)
