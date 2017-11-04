@@ -106,7 +106,7 @@ window.addEventListener("load", function(evt) {
 
     dropZone.ondragover = function(e) {
         this.className = 'upload-drop-zone drop';
-        console.log("DRAG OVER: ", e.)
+        console.log("DRAG OVER: ", e)
         return false;
     }
 
@@ -139,7 +139,7 @@ window.addEventListener("load", function(evt) {
             case "user-disconnected":
                 //msg sent by server when user disconnects
                 //notification that user is no long online
-                console.log("User Disconnect," evt.data)
+                console.log("User Disconnect", evt.data)
                 if(friends.IsFriendAndIsMe(evt.data.fromUid, evt.data.toUid)) {
                     //if this uid is my friend
                     // TODO change online to offline for user
@@ -150,7 +150,7 @@ window.addEventListener("load", function(evt) {
             case "user-connected":
                 //msg sent by server when user connects
                 //notification that user has is now online
-                console.log("User Connected," evt.data)
+                console.log("User Connected", evt.data)
                 if(friends.IsFriendAndIsMe(evt.data.fromUid, evt.data.toUid)) {
                     //if this uid is my friend
                     // TODO change online to online for user
