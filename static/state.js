@@ -57,7 +57,7 @@ GlobalState.prototype.activateBox = function(sesid) {
         	globalWs.ws.send(JSON.stringify({
         		action: "update-location",
         		toUid: $(element).attr("toid"),//"b",
-        		fromUid: $(element).attr("myid"),//document.getElementById('userid').value,
+        		fromUid: globalState.Friends.myid,//document.getElementById('userid').value,
         		sesid: $(element).attr("id"),
                 // files: e.dataTransfer.files,
                 domid: ui.draggable.attr("id"),
@@ -69,7 +69,7 @@ GlobalState.prototype.activateBox = function(sesid) {
         	globalWs.ws.send(JSON.stringify({
         		action: "share-files",
         		toUid: $(element).attr("toid"),//"b",
-        		fromUid: $(element).attr("myid"),
+        		fromUid: globalState.Friends.myid,
         		sesid: $(element).attr("id"),
         		filename: e.dataTransfer.files[0].name,
         		xloc: e.offsetX-35,

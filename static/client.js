@@ -22,6 +22,7 @@ window.fbAsyncInit = function() {
             var queryString = "/me"
             FB.api(queryString, function(response) {
                 globalState.Friends.myid = response.id
+                initGlobalWS()
             });
 
             queryString = "/me/friends"
@@ -30,10 +31,6 @@ window.fbAsyncInit = function() {
                 console.log(JSON.stringify(response));
                 addFriends(response)
             });
-        }
-        if(!facebookinit) {
-            globalWs.Create()
-            facebookinit = true
         }
     });
 
@@ -55,6 +52,7 @@ function checkLoginState() {
         var queryString = "/me"
         FB.api(queryString, function(response) {
             globalState.Friends.myid = response.id
+            initGlobalWS()
         });
         
         queryString = "/me/friends"
@@ -63,13 +61,15 @@ function checkLoginState() {
             console.log(JSON.stringify(response));
             addFriends(response)
         });
-
-        if(!facebookinit) {
-            globalWs.Create()
-            facebookinit = true
-        }
     });
   }
+
+function initGlobalWS() {
+    if(!facebookinit) {
+        globalWs.Create()
+        facebookinit = true
+    }
+}
 
 function addFriends(response) {
     if(response.data.length > 0) {

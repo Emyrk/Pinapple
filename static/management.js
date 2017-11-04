@@ -23,7 +23,7 @@ function addFileToDropZone(sesid, fileName, x, y){
         fileImgSrc = "/static/img/icons/unknown.png"
     }
 
-    var draggable = $("<div class='draggable' id='img1' shared='true'>").css({ "margin-left" : x, "margin-top" : y});
+    var draggable = $("<div class='draggable' id='" + fileName + "' shared='true'>").css({ "margin-left" : x, "margin-top" : y});
     var icon = $("<img src='" + fileImgSrc + "' class=icon>");
     var fileName = $("<div class='fileName'>").html(fileName);
 
@@ -37,7 +37,7 @@ function addFileToDropZone(sesid, fileName, x, y){
 
 GlobalWs.prototype.Create = function() {
     if (!globalWs.ws) {
-        var uid = document.getElementById('userid').value
+        var uid = globalState.Friends.myid
         var query = "?userid="+uid;
         globalWs.ws = new WebSocket("ws://localhost:8080/mngmt/connect"+query);
     }
