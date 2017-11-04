@@ -2,6 +2,7 @@ package server
 
 import (
 	"fmt"
+	"html/template"
 	"log"
 	// "math/rand"
 	"net/http"
@@ -42,11 +43,17 @@ func NewSessionManager() *SessionManager {
 }
 
 func home(w http.ResponseWriter, r *http.Request) {
+	homeTemplate, err := template.New("client.html").ParseFiles(testTemplate)
+	if err != nil {
+		fmt.Println("Error rendering home template: ", err.Error())
+	}
 	homeTemplate.Execute(w, "ws://"+r.Host+"/connect")
 }
 
 func (s *SessionManager) Listen(port int) {
 	http.HandleFunc("/connect", s.connect)
+	fs := http.FileServer(http.Dir(baseDir))
+	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", home)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
 }

@@ -17,5 +17,9 @@ func main() {
 	sm := server.NewSessionManager()
 	go sm.Listen(*addr)
 	go sm.Manage()
+
+	mngmt := server.NewManagementHandler()
+	go mngmt.Listen(8000)
+
 	Control(sm)
 }

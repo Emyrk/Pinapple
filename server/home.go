@@ -1,15 +1,23 @@
 package server
 
 import (
-	"html/template"
+	// "html/template"
+	"os"
+	"path/filepath"
 )
 
-var homeTemplate = template.Must(template.New("").Parse(`
+var baseDir = filepath.Join(os.Getenv("GOPATH"), "src", "github.com", "Emyrk", "Pinapple", "react", "sockets")
+
+var testTemplate = filepath.Join(baseDir, "client.html")
+
+// var homeTemplate = template.Must(template.New("").ParseFiles(testTemplate))
+/*
+var _ = template.Must(template.New("").Parse(`
 <!DOCTYPE html>
 <html>
 <head>
 <meta charset="utf-8">
-<script>  
+<script>
 console.log("ASDASASD")
 var textFile = null;
 
@@ -103,8 +111,8 @@ window.addEventListener("load", function(evt) {
 <body>
 <table>
 <tr><td valign="top" width="50%">
-<p>Click "Open" to create a connection to the server, 
-"Send" to send a message to the server and "Close" to close the connection. 
+<p>Click "Open" to create a connection to the server,
+"Send" to send a message to the server and "Close" to close the connection.
 You can change the message and send multiple times.
 <p>
 UserID: <input id="userid" type="text" name="fname"><br>
@@ -122,3 +130,4 @@ SessionID: <input id="sesid" type="text" name="lname"><br>
 </body>
 </html>
 `))
+*/

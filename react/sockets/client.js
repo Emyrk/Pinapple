@@ -135,8 +135,7 @@ Connection.prototype.send = function(data) {
     if (!this.ws) {
         return false;
     }
-    //print("SEND: " + input.value);
-    //consoel.log(("SEND: " + input.value);)
+    consoel.log("SEND: " + input.value);
     this.ws.send(input.value);
     return true;
 }

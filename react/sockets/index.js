@@ -54,7 +54,7 @@ window.addEventListener("load", function(evt) {
         var sesid = document.getElementById('sesid').value
         var query = "?userid=" + uid + "&sessionid=" + sesid
 
-        ws = new WebSocket("{{.}}"+query);
+        ws = new WebSocket("localhost:8080/connect"+query);
         ws.onopen = function(evt) {
             print("OPEN");
         }
@@ -119,12 +119,12 @@ window.addEventListener("load", function(evt) {
     var uid = document.getElementById('userid').value
     var query = "?userid=" + uid
 
-    globalWs = new WebSocket("localhost:8080/mngmt/connect"+query);
+    globalWs = new WebSocket("ws://localhost:8080/mngmt/connect"+query);
     globalWs.onopen = function(evt) {
         print("OPEN GLOBAL");
-        ws.send(JSON.stringify({
+        globalWs.send(JSON.stringify({
             action: "user-connected",
-            fromUid: document.getElementById('uid').value,
+            fromUid: document.getElementById('userid').value,
         }))
     }
     globalWs.onclose = function(evt) {
@@ -133,7 +133,7 @@ window.addEventListener("load", function(evt) {
         globalWs = null;
     }
     globalWs.onmessage = function(evt) {
-        evt = JSON.parse(evt);
+        evt.data = JSON.parse(evt.data);
         print("RESPONSE: " + evt.data);
         switch (evt.data.action) {
             case "user-disconnected":
