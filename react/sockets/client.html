@@ -5,43 +5,42 @@
     <link rel="stylesheet" type="text/css" href="/static/client.css">
     <script src="https://code.jquery.com/jquery-1.12.4.js"></script>
     <script src="https://code.jquery.com/ui/1.12.1/jquery-ui.js"></script>
-    <script src="/static/index.js"></script>
     <script src="/static/client.js"></script>
+    <script src="/static/management.js"></script>
+    <script src="/static/index.js"></script>
     <script src="/static/display.js"></script>
 </head>
 <body>
-    <div id="fb-root"></div>
+    <!-- <div id="fb-root"></div>
     <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"
     data-scope="user_friends"
+<<<<<<< HEAD
     onlogin="checkLoginState()"></div>
     <img src="/static/img/rodel.png" class="draggable" id="img1"></img>
     <img src="/static/img/rodel.png" class="draggable" id="img2"></img>
-    <table>
-        <tr>
-            <td valign="top" width="50%">
-                <p>Click "Open" to create a connection to the server, 
-                    "Send" to send a message to the server and "Close" to close the connection. 
-                    You can change the message and send multiple times.
-                </p>
-                UserID: <input id="userid" type="text" name="fname"><br>
-                SessionID: <input id="sesid" type="text" name="lname"><br>
-                <form>
-                    <button id="open">Open</button>
-                    <button id="close">Close</button>
-                    <p><input id="input" type="text" value="Hello world!">
-                        <button id="send">Send</button>
-                    </p>
-                </form>
-                <a download="info.txt" id="downloadlink" style="display: none">Download</a>
-            </td>
-            <td valign="top" width="50%">
-                <div id="output"></div>
-            </td>
-        </tr>
-    </table>
+=======
+    onlogin="checkLoginState()"></div>-->
+    <h1>
+        Fake Login
+    </h1>
+    UserID: <input class="idset" id="userid" type="text" name="fname"><br> <p id="myid"></p>
+    <button class="idset" id="setuserid">Login with id</button>
+    <hr>
+    <div>
+        <h1>Friends</h1>
+        FriendID: <input id="friendid" type="text" name="fname"><br> <p id="myid"></p>
+        <button id="addfriendid">Add Friend ID</button>
+        <ul id="friends"></ul>
+        <hr>
+    </div>
+    <img src="/static/img/rodel.png" class="draggable"></img>
+
+
+
+    <div id="wrapper">
     <div class="upload-drop-zone" id="drop-zone">
         Just drag and drop files here
     </div>
-</div>
+    </div>
 </body>
 </html>
