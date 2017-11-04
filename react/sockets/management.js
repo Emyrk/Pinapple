@@ -2,6 +2,38 @@ function GlobalWs() {
 
 }
 
+function addFileToDropZone(sesid, fileName, x, y){
+
+    var fileExt = fileName.split('.').pop();
+    var fileImgSrc = "/static/img/rodel.png"
+    console.log("file Extension is " + fileExt)
+
+    // need to add sources for file extensions here
+    switch (fileExt){
+        case ".png":
+            break
+        case ".jpg":
+        case ".jpeg":
+            break
+        case ".pdf":
+            break
+        case ".docx":
+        case ".doc":
+            break
+    }
+
+    var draggable = $("<div class='draggable' id='img1' shared='true'>").css({ "margin-left" : x, "margin-top" : y});
+    var icon = $("<img src='" + fileImgSrc + "' class=icon>");
+    var fileName = $("<div class='fileName'>").html(fileName);
+
+    draggable.append(icon);
+    draggable.append(fileName);
+    draggable.attr("shared", true)
+
+    $("#"+sesid).append(draggable);
+    $( ".draggable" ).draggable({ cursor: "crosshair", revert: "invalid"});
+}
+
 GlobalWs.prototype.Create = function() {
     if (!globalWs.ws) {
         var uid = document.getElementById('userid').value
@@ -87,7 +119,7 @@ GlobalWs.prototype.Create = function() {
                 console.log("Update Location", data)
                 if(friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //TODO add in files to screen ui
-                    updateLocation($("#"+data.domid), data.xloc, data.yloc)
+                    updateLocation($("#"+data.domid), data.normlX * dropZone.width(), data.normlY * dropZone.height());
                 } else {
                     console.log("INFO: no friends for available-files.")
                 }

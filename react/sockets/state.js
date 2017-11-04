@@ -46,28 +46,32 @@ GlobalState.prototype.activateBox = function(sesid) {
         if(globalWs.ws == undefined) {
         	return
         }
+
+        var element = this
         if(ui != undefined && ui.draggable.attr("shared")) {
         	console.log("Attr already set")
         	globalWs.ws.send(JSON.stringify({
         		action: "update-location",
-        		toUid: this.attr("toid"),//"b",
-        		fromUid: this.attr("myid"),//document.getElementById('userid').value,
-        		sesid: this.attr("id"),
+        		toUid: $(element).attr("toid"),//"b",
+        		fromUid: $(element).attr("myid"),//document.getElementById('userid').value,
+        		sesid: $(element).attr("id"),
                 // files: e.dataTransfer.files,
                 domid: ui.draggable.attr("id"),
                 xloc: ui.draggable.position().left,
                 yloc: ui.draggable.position().top,
             }))
         } else {
+        	// New file
         	globalWs.ws.send(JSON.stringify({
         		action: "share-files",
-        		toUid: this.attr("toid"),//"b",
-        		fromUid: this.attr("myid"),
-        		sesid: this.attr("id"),
+        		toUid: $(element).attr("toid"),//"b",
+        		fromUid: $(element).attr("myid"),
+        		sesid: $(element).attr("id"),
         		files: e.dataTransfer.files,
         	}))
-        	ui.draggable.attr("shared", true)
+        	// ui.draggable.attr("shared", true)
         	console.log("Attr set")
+        	addFileToDropZone($(element).attr("id"), e.dataTransfer.files[0].name, e.offsetX-35, e.offsetY-35)
         }
 	}
 
