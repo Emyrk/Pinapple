@@ -83,11 +83,17 @@ Friends.prototype.SetFriends = function(people) {
 Friends.prototype.addFriend = function(person, uid) {
     this.people[uid] = person;
     $("#friendlist").append(`
-        <li style="background-image: url(/static/img/maxresdefault.jpg)" class="jessesaran" id="pal-` + uid + `">
+        <li style="background-image: url(/static/img/maxresdefault.jpg)" class="jessesaran" id="pal-` + uid + `" name="` + person + `">
             <div class="online"></div>
             <h5> ` + person + `</h5>
         </li>`
     )
+
+    $("#pal-"+uid).on('click', function(){
+        $("#confirm-share-name").text($(this).attr("name"));
+        $('#mainScreen').hide()
+        $('.confirmShare').show();  
+    })
 }
 
 Friends.prototype.SetMeUid = function(meUid) {
