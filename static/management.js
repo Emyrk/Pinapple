@@ -15,12 +15,12 @@ function addFileToDropZone(sesid, fileName, x, y){
     var fileImgSrc = ""
     for (var i = 0; i < fileExtensions.length; i++){
         if (fileExt == fileExtensions[i]){
-            fileImgSrc = /"static/img/" + fileExt + ".png"
+            fileImgSrc = "/static/img/icons/" + fileExt + ".png"
             console.log("USED EXTENSION")
         } 
     }
     if (fileImgSrc == ""){
-        fileImgSrc = "/static/img/unknown.png"
+        fileImgSrc = "/static/img/icons/unknown.png"
     }
 
     var draggable = $("<div class='draggable' id='img1' shared='true'>").css({ "margin-left" : x, "margin-top" : y});

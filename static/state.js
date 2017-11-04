@@ -96,7 +96,7 @@ GlobalState.prototype.activateBox = function(sesid) {
 	var dropZone = document.getElementById(sesid);
 	dropZone.addEventListener("drop", ondrop, false);
 	dropZone.addEventListener("dragenter", ondragenter, false);
-    dropZone.addEventListener("dragover", ondragover, false);=
+    dropZone.addEventListener("dragover", ondragover, false);
 }
 
 var globalState = new GlobalState()
