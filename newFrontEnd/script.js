@@ -6,5 +6,4 @@ $(document).ready(function(){
         $('.confirmShare').show();  
         $('.online').removeClass().addClass( "active" );;  
     });
-
 });
