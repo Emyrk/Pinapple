@@ -98,7 +98,7 @@ window.addEventListener("load", function(evt) {
         this.className = 'upload-drop-zone';
         ws.send(JSON.stringify({
             action: "share-files",
-            toUid: document.getElementById('sesid').value,
+            toUid: document.getElementById('uid').value,
             fromUid: document.getElementById('sesid').value,
             files: e.dataTransfer.files,
         }))
@@ -122,6 +122,10 @@ window.addEventListener("load", function(evt) {
     globalWs = new WebSocket("localhost:8080/mngmt/connect"+query);
     globalWs.onopen = function(evt) {
         print("OPEN GLOBAL");
+        ws.send(JSON.stringify({
+            action: "user-connected",
+            fromUid: document.getElementById('uid').value,
+        }))
     }
     globalWs.onclose = function(evt) {
         print("CLOSE GLOBAL");
@@ -129,6 +133,7 @@ window.addEventListener("load", function(evt) {
         globalWs = null;
     }
     globalWs.onmessage = function(evt) {
+        evt = JSON.parse(evt);
         print("RESPONSE: " + evt.data);
         switch (evt.data.action) {
             case "user-disconnected":
