@@ -1,5 +1,5 @@
 // pull in our models. This will automatically load the index.js from that folder
-const models = require('../models');
+//const models = require('../models');
 
 // function to handle requests to the main page
 // controller functions in Express receive the full HTTP request
@@ -11,7 +11,12 @@ const hostIndex = (req, res) => {
   });
 };
 
+const hostShare = (req, res) => {
+  res.render('share');
+};
+
 // export the relevant public controller functions
 module.exports = {
-  index: hostIndex
+  index: hostIndex,
+  share: hostShare,
 };

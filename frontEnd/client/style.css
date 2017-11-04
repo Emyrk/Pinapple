@@ -1,0 +1,30 @@
+/* UTILITY */
+
+body {
+    padding: 0px;
+    margin: 0px;
+    overflow-x: hidden;
+}
+
+.friendsList {
+    float: left;
+    background-color: blue;
+    height: 100vh;
+    width: 10%;
+}
+
+h3 { 
+    text-align: center;
+
+}
+
+.content{
+   float: right;
+   display: flex;
+   align-items: center;
+   justify-content: center;
+    width: 90%;
+    height: 100vh;
+    background: green;
+    
+}
