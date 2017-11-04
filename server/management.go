@@ -67,6 +67,8 @@ func (m *ManagementHandler) connect(w http.ResponseWriter, r *http.Request) {
 
 	oldClient, ok := m.Clients[uid]
 	if ok {
+
+		//TODO BROADCAST SWAPPING CLIENT
 		//TODO FIX KICKING/KILLING OLD CLIENT
 		oldClient.Alive = false
 		err := oldClient.conn.Close()

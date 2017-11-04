@@ -1,0 +1,35 @@
+{
+  "name": "simple-mvc-example",
+  "version": "0.0.0",
+  "engines": {
+    "node": "7.5.0",
+    "npm": "4.0.5"
+  },
+  "description": "A simple Express MVC using only static files",
+  "main": "./server/app.js",
+  "scripts": {
+    "nodemon": "nodemon --watch ./server ./server/app.js",
+    "start": "node ./server/app.js",
+    "pretest": "eslint ./server --fix",
+    "test": "echo \"tests complete\""
+  },
+  "author": "Cody Van De Mark",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-preset-env": "^1.1.8",
+    "eslint": "^3.18.0",
+    "eslint-config-airbnb": "^14.1.0",
+    "eslint-plugin-import": "^2.2.0",
+    "nodemon": "^1.11.0"
+  },
+  "dependencies": {
+    "body-parser": "^1.15.2",
+    "compression": "^1.6.2",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.14.0",
+    "express-handlebars": "^3.0.0",
+    "mongoose": "^4.6.3",
+    "serve-favicon": "^2.3.0"
+  }
+}
