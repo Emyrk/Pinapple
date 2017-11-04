@@ -16,7 +16,9 @@
     <script type="text/javascript">
     function startShare() {
         
+        $('#confirm-share-name').attr("uid")
         $('.confirmShare').hide();
+        globalState.addSession($('#confirm-share-name').attr("uid"))
         // $('.').show();  
         //show box the drag stuff in
         //show pening for friend response

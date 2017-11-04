@@ -13,6 +13,7 @@ window.addEventListener("load", function(evt) {
         $('.mainScreen').hide();
         $('.confirmShare').show();  
         $('.online').removeClass().addClass( "active" );;  
+        $('.online').removeClass().addClass( "active" );  
     });
 
 

@@ -1,5 +1,7 @@
 /*************** Start of Facebook Code ***************/
 
+var facebookinit = false
+
 // Called whenever the page is loaded
 window.fbAsyncInit = function() {
 	FB.init({
@@ -17,8 +19,12 @@ window.fbAsyncInit = function() {
         
         // if the user is logged in, return a list of their friends
         if (response.status == "connected"){
+            var queryString = "/me"
+            FB.api(queryString, function(response) {
+                globalState.Friends.myid = response.id
+            });
 
-            var queryString = "/me/friends"
+            queryString = "/me/friends"
 
             FB.api(queryString, function(response) {
                 console.log(JSON.stringify(response));
@@ -27,6 +33,10 @@ window.fbAsyncInit = function() {
                 console.log(profilePicQS)
                 $(document.body).append(profilePicQS)
             });
+        }
+        if(!facebookinit) {
+            globalWs.Create()
+            facebookinit = true
         }
     });
 
@@ -45,21 +55,30 @@ window.fbAsyncInit = function() {
 function checkLoginState() {
     FB.getLoginStatus(function(response) {
 
-        console.log(response)
-
-        var queryString = "/me/friends"
+        var queryString = "/me"
+        FB.api(queryString, function(response) {
+            globalState.Friends.myid = response.id
+        });
+        
+        queryString = "/me/friends"
         
         FB.api(queryString, function(response) {
             console.log(JSON.stringify(response));
             addFriends(response)
-            
         });
+
+        if(!facebookinit) {
+            globalWs.Create()
+            facebookinit = true
+        }
     });
   }
 
 function addFriends(response) {
-    for(var i = 0; i < response.data.length; i++) {
-        globalState.Friends.addFriend(response.data[i].name, response.data[i].id)
+    if(response.data.length > 0) {
+        for(var i = 0; i < response.data.length; i++) {
+            globalState.Friends.addFriend(response.data[i].name, response.data[i].id)
+        }
     }
 }
 
@@ -85,6 +104,7 @@ Friends.prototype.SetFriends = function(people) {
 
 Friends.prototype.addFriend = function(person, uid) {
     this.people[uid] = person;
+<<<<<<< HEAD
 
     var listItem = $("<li class=jessesaran id=pal-" + uid + ">")
     listItem.append($("<img src=http://graph.facebook.com/" + uid + "/picture?type=normal>"));
@@ -92,6 +112,27 @@ Friends.prototype.addFriend = function(person, uid) {
     listItem.append($("<h5>").html(person))
     
     $("#friendlist").append(listItem)
+=======
+    $("#friendlist").append(`
+        <li style="background-image: url(/static/img/maxresdefault.jpg)" class="jessesaran" id="pal-` + uid + `" name="` + person + `">
+            <div class="online"></div>
+            <h5> ` + person + `</h5>
+        </li>`
+    )
+
+    $("#pal-"+uid).on('click', function(){
+        $(".activeOnly").removeClass("activeOnly")
+        var sesid = getSession(uid, globalState.Friends.myid)
+        $('#mainScreen').removeClass("activeOnly");
+        if(globalState.Sessions[sesid] != undefined) {
+            $("#"+sesid).addClass("activeOnly")
+        } else {
+            $("#confirm-share-name").text($(this).attr("name"));
+            $("#confirm-share-name").attr("uid", uid);
+            $('#confirmShare').addClass("activeOnly");
+        }
+    })
+>>>>>>> origin/master
 }
 
 Friends.prototype.SetMeUid = function(meUid) {
