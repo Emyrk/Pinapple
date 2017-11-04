@@ -17,6 +17,8 @@ var upgrader = websocket.Upgrader{} // use default options
 
 type SessionManager struct {
 	// Map of peer to peer sessions for data
+	// 		Key   --> Session ID (ID + ID)
+	// 		Value --> Pointer to Connection Pair (echo chamber)
 	Sessions    map[string]*Session
 	sessionLock sync.RWMutex
 }
@@ -33,6 +35,11 @@ func (s *SessionManager) Listen(port int) {
 }
 
 func (s *SessionManager) connect(w http.ResponseWriter, r *http.Request) {
+	uid := r.FormValue("userid")
+	sesid := r.FormValue("sessionid")
+
+	var _ = uid
+	var _ sesid
 	// con becomes the websocket
 	con, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
@@ -40,6 +47,7 @@ func (s *SessionManager) connect(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
+	// TODO: Replace random with uid/sesid from HTTP
 	c := NewConnection(con, fmt.Sprintf("%d", rand.Intn(1000)))
 	s.sessionLock.Lock()
 	ses, ok := s.Sessions["OnlySession"]
@@ -47,8 +55,11 @@ func (s *SessionManager) connect(w http.ResponseWriter, r *http.Request) {
 		// Session Exists
 		ses.AddConnection(c)
 	} else {
+		// Session does not exists
 		ses = NewSession()
+		// Create
 		s.Sessions["OnlySession"] = ses
+		// Add connection
 		ses.AddConnection(c)
 	}
 	s.sessionLock.Unlock()
@@ -66,20 +77,6 @@ func NewSession() *Session {
 	s := new(Session)
 	return s
 }
-
-// func (s *Session) Run() {
-// 	mt, message, err := c.ReadMessage()
-// 	if err != nil {
-// 		log.Println("read:", err)
-// 		break
-// 	}
-// 	log.Printf("%d recv: %s", count, message)
-// 	err = c.WriteMessage(mt, message)
-// 	if err != nil {
-// 		log.Println("write:", err)
-// 		break
-// 	}
-// }
 
 // Add connection to exisiting connection
 func (s *Session) AddConnection(c *Connection) error {
@@ -115,7 +112,9 @@ func NewConnection(wc *websocket.Conn, id string) *Connection {
 }
 
 func (c *Connection) Replace(b *Connection) {
-	c.Close()
+	if c != nil {
+		c.Close()
+	}
 	c.Conn = b.Conn
 	c.ID = b.ID
 }
