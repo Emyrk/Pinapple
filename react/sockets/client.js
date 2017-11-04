@@ -55,7 +55,7 @@ function checkLoginState() {
 
 
 function Friends() {
-
+    this.people = {};
 }
 
 Friends.prototype.IsFriendAndIsMe = function(fromUid, toUid) {
@@ -69,6 +69,10 @@ Friends.prototype.IsFriendAndIsMe = function(fromUid, toUid) {
 // friends objects
 Friends.prototype.SetFriends = function(people) {
     this.people = people;
+}
+
+Friends.prototype.addFriend = function(person) {
+    this.people[person] = person;
 }
 
 Friends.prototype.SetMeUid = function(meUid) {
@@ -148,6 +152,13 @@ Connection.prototype.close = function() {
     return true;
 }
 
+
+function getSession(uidA, uidB) {
+    if(uidA > uidB) {
+        return uidA + uidB
+    } 
+    return uidB + uidA
+}
 
 function makeTextFile (text) {
     var data = new Blob([text], {type: 'text/plain'});

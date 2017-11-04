@@ -22,9 +22,9 @@ window.addEventListener("load", function(evt) {
             console.log("Attr already set")
             globalWs.ws.send(JSON.stringify({
                 action: "update-location",
-                toUid: document.getElementById('uid').value,
-                fromUid: document.getElementById('sesid').value,
-                files: e.dataTransfer.files,
+                toUid: "b",
+                fromUid: document.getElementById('userid').value,
+                // files: e.dataTransfer.files,
                 domid: ui.draggable.attr("id"),
                 xloc: ui.draggable.position().left,
                 yloc: ui.draggable.position().top,
@@ -32,8 +32,8 @@ window.addEventListener("load", function(evt) {
         } else {
             globalWs.ws.send(JSON.stringify({
                 action: "share-files",
-                toUid: document.getElementById('uid').value,
-                fromUid: document.getElementById('sesid').value,
+                toUid: "b",
+                fromUid: document.getElementById('userid').value,
                 files: e.dataTransfer.files,
             }))
             ui.draggable.attr("shared", true)
@@ -72,7 +72,7 @@ window.addEventListener("load", function(evt) {
     });
     $("#addfriendid").click(function() {
         var uid = document.getElementById('friendid').value;
-        friends.SetMeUid(uid);
+        friends.addFriend(uid)
         $("#friends").append("<p>" + uid + "</p>");
         document.getElementById('friendid').value = "";
     });

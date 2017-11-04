@@ -23,14 +23,14 @@ GlobalWs.prototype.Create = function() {
         globalWs = null;
     }
     globalWs.ws.onmessage = function(evt) {
-        evt.data = JSON.parse(evt.data);
-        console.log("RESPONSE: " + evt.data);
-        switch (evt.data.action) {
+        data = JSON.parse(evt.data);
+        console.log("RESPONSE: " + data);
+        switch (data.action) {
             case "user-disconnected":
                 //msg sent by server when user disconnects
                 //notification that user is no long online
-                console.log("User Disconnect", evt.data);
-                if(friends.IsFriendAndIsMe(evt.data.fromUid, evt.data.toUid)) {
+                console.log("User Disconnect", data);
+                if(friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //if this uid is my friend
                     // TODO change online to offline for user
                 } else {
@@ -40,8 +40,8 @@ GlobalWs.prototype.Create = function() {
             case "user-connected":
                 //msg sent by server when user connects
                 //notification that user has is now online
-                console.log("User Connected", evt.data);
-                if(friends.IsFriendAndIsMe(evt.data.fromUid, evt.data.toUid)) {
+                console.log("User Connected", data);
+                if(friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //if this uid is my friend
                     // TODO change online to online for user
                 } else {
@@ -51,8 +51,8 @@ GlobalWs.prototype.Create = function() {
             case "share-files":
                 //msg sent to user when "friend" dragged file into dashboard
                 //notification about user adding files
-                console.log("Share Files:", evt.data);
-                if(friends.IsFriendAndIsMe(evt.data.fromUid, evt.data.toUid)) {
+                console.log("Share Files:", data);
+                if(friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //if this uid is my friend
                     // TODO show that a file is available for download
                 } else {
@@ -64,8 +64,8 @@ GlobalWs.prototype.Create = function() {
             case "request-files":
                 //msg sent to user to ask about available files
                 //no notification, this is used when changing connections
-                console.log("Request Files:", evt.data);
-                if(friends.IsFriendAndIsMe(evt.data.fromUid, evt.data.toUid)) {
+                console.log("Request Files:", data);
+                if(friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //if this uid is my friend
                     // TODO Return available files
                     //  - action on return = "available-files"
@@ -75,18 +75,18 @@ GlobalWs.prototype.Create = function() {
             case "available-files": 
                 //response from request-files, listing avaiable files
                 //no notification, this is used when changing connections
-                console.log("Avilable Files:", evt.data);
-                if(friends.IsFriendAndIsMe(evt.data.fromUid, evt.data.toUid)) {
+                console.log("Avilable Files:", data);
+                if(friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //TODO add in files to screen ui
                 } else {
                     console.log("INFO: no friends for available-files.")
                 }
             case "update-location":
                 // Need id, x, y
-                console.log("Update Location", evt.data)
-                if(friends.IsFriendAndIsMe(evt.data.fromUid, evt.data.toUid)) {
+                console.log("Update Location", data)
+                if(friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //TODO add in files to screen ui
-                    updateLocation($("#"+evt.data.domid), evt.data.xloc, evt.data.yloc)
+                    updateLocation($("#"+data.domid), data.xloc, data.yloc)
                 } else {
                     console.log("INFO: no friends for available-files.")
                 }
