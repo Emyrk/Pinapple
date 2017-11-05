@@ -15,7 +15,7 @@ function addFileToDropZone(sesid, fileName, x, y, mine){
     var fileImgSrc = ""
     for (var i = 0; i < fileExtensions.length; i++){
         if (fileExt.toLowerCase() == fileExtensions[i]){
-            fileImgSrc = "/static/img/icons/" + fileExt + ".png"
+            fileImgSrc = "/static/img/icons/" + fileExt.toLowerCase() + ".png"
             console.log("USED EXTENSION")
         } 
     }
