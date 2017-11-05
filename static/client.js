@@ -31,9 +31,6 @@ window.fbAsyncInit = function() {
             FB.api(queryString, function(response) {
                 console.log(JSON.stringify(response));
                 addFriends(response)
-                // var profilePicQS = $(`<img src=http://graph.facebook.com/` + response.data[0].id + `/picture?type=normal>`)
-                // console.log(profilePicQS)
-                // $(document.body).append(profilePicQS)
             });
         }
     });
@@ -88,6 +85,7 @@ function addFriends(response) {
 
 function Friends() {
     this.people = {};
+    this.Files = {}
 }
 
 Friends.prototype.IsFriendAndIsMe = function(fromUid, toUid) {
@@ -105,6 +103,7 @@ Friends.prototype.SetFriends = function(people) {
 
 Friends.prototype.addFriend = function(personname, uid) {
     this.people[uid] = personname;
+    this.Files[uid] = {}
 
     var listItem = $(`<li class=jessesaran id="pal-` + uid + `" name="` + personname + `">`)
     listItem.append($("<div class=online>"))
@@ -116,7 +115,7 @@ Friends.prototype.addFriend = function(personname, uid) {
     $("#pal-"+uid).on('click', function(){
         $(".activeOnly").removeClass("activeOnly")
         var sesid = getSession(uid, globalState.Friends.myid)
-        $('#mainScreen').removeClass("activeOnly");
+        $('#download-container').children().removeClass("activeOnly");
         if(globalState.Sessions[sesid] != undefined) {
             $("#"+sesid).addClass("activeOnly")
             globalState.activeFriend = uid
