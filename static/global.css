@@ -87,6 +87,15 @@ span {
     background-color: green;
     border-radius: 100%;
 }
+.offline {
+    height: 15px;
+    width: 15px;
+    position: relative;
+    left: 20%;
+    top: 15px;
+    background-color: #a50000;
+    border-radius: 100%;
+}
 
 .active{
     height:15px;
