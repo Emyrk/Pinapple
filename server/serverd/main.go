@@ -27,7 +27,7 @@ func main() {
 	}
 
 	if *remote {
-		go sm.ListenTLS(*addr)
+		go sm.Listen(*addr)
 	} else {
 		go sm.Listen(*addr)
 	}
@@ -35,7 +35,7 @@ func main() {
 
 	mngmt := server.NewManagementHandler()
 	if *remote {
-		go mngmt.ListenTLS(8000)
+		go mngmt.Listen(8000)
 	} else {
 		go mngmt.Listen(8000)
 	}
