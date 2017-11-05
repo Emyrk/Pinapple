@@ -15,6 +15,7 @@ GlobalState.prototype.addSession = function(toid) {
     if(this.Sessions[sesid]  != undefined) {
         return
     }
+    var myid = this.Friends.myid;
 	$("#download-container").append(
 	`
 	 <div class="upload-drop-zone onlyone" id="` + sesid + `" toid="` + toid + `" myid="` + myid + `" >
@@ -73,7 +74,7 @@ GlobalState.prototype.activateBox = function(sesid) {
 		e.stopPropagation();
 		e.preventDefault();
 
-        this.className = 'upload-drop-zone';
+        // this.className = 'upload-drop-zone';
 
         if(globalWs.ws == undefined) {
         	return
@@ -128,13 +129,13 @@ GlobalState.prototype.activateBox = function(sesid) {
     }
 
     ondragover = function(e) {
-        this.className = 'upload-drop-zone drop';
+        // this.className = 'upload-drop-zone drop';
         // console.log("DRAG OVER: ", e)
         return false;
     }
 
     ondragleave = function() {
-        this.className = 'upload-drop-zone';
+        // this.className = 'upload-drop-zone';
         return false;
     }
 
