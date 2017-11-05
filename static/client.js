@@ -120,6 +120,8 @@ Friends.prototype.addFriend = function(personname, uid) {
         $('#mainScreen').removeClass("activeOnly");
         if(globalState.Sessions[sesid] != undefined) {
             $("#"+sesid).addClass("activeOnly")
+            $("#contain-"+ sesid).addClass("activeOnly")
+
             globalState.activeFriend = uid
         } else {
             $("#confirm-share-name").text($(this).attr("name"));

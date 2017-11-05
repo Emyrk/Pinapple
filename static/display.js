@@ -61,6 +61,7 @@ function startShare() {
   var ses = getSession(globalState.Friends.myid, uid)
   globalState.addSession(uid)
   $("#"+ ses).addClass("activeOnly")
+  $("#contain-"+ ses).addClass("activeOnly")
 
   //reset count for notification
   $("#pal-"+uid).find(".online").html("");
