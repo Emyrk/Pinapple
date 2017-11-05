@@ -9,5 +9,5 @@ function updateLocation(dom, x, y) {
     var ys = y + "px"
     $(dom).css("left", xs)
     $(dom).css("top", ys)
-    console.log(dom)
+    console.log("updatedLocation (" + x + ", " + y + ")")
 }

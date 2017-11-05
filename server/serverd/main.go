@@ -11,8 +11,9 @@ import (
 )
 
 var (
-	sarah = flag.Bool("sarah", false, "Sarah use this")
-	addr  = flag.Int("addr", 8080, "http service address")
+	sarah  = flag.Bool("sarah", false, "Sarah use this")
+	addr   = flag.Int("addr", 8080, "http service address")
+	remote = flag.Bool("r", false, "Use remote")
 )
 
 func main() {
@@ -21,6 +22,10 @@ func main() {
 		server.SetBaseDir("/Users/saraartese/desktop/github/pinapple/static")
 	}
 	sm := server.NewSessionManager()
+	if *remote {
+		sm.SetHost("wss://pinapple.me")
+	}
+
 	go sm.Listen(*addr)
 	go sm.Manage()
 

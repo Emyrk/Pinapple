@@ -49,7 +49,6 @@ GlobalState.prototype.addSession = function(toid) {
     });
 }
 
-
 function Session(myid, toid) {
 	this.myid = myid
 	this.toid = toid
@@ -82,7 +81,8 @@ GlobalState.prototype.activateBox = function(sesid) {
 
         var element = this
         if(ui != undefined && ui.draggable.attr("shared")) {
-        	console.log("Attr already set")
+			console.log(ui.position)
+			
             globalWs.ws.send(JSON.stringify({
                 action: "update-location",
                 toUid: globalState.activeFriend,//"b",
@@ -90,14 +90,14 @@ GlobalState.prototype.activateBox = function(sesid) {
                 sesid: getSession(globalState.activeFriend, globalState.Friends.myid) ,
                 // files: e.dataTransfer.files,
                 domid: ui.draggable.attr("id"),
-                xloc: ui.draggable.position.left,
-                yloc: ui.draggable.position.top,
-                normlX: ui.draggable.position.left / dropZone.offsetWidth,
-                normlY: ui.draggable.position.top / dropZone.offsetHeight,
+                xloc: ui.position.left,
+                yloc: ui.position.top,
+                normlX: ui.position.left / window.innerWidth,
+                normlY: ui.position.top / window.innerHeight,
             }))
             if(globalState.Friends.Files[globalState.activeFriend] != undefined && globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")] != undefined) {
-                globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")].xLoc =  ui.draggable.position().left / dropZone.offsetWidth
-                globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")].yLoc = ui.draggable.position().top / dropZone.offsetHeight
+                globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")].xLoc =  ui.position.left / window.innerWidth
+                globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")].yLoc = ui.position.top / window.innerHeight
             }
         } else {
 			// New file
