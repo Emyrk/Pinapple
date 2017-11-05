@@ -61,8 +61,17 @@ function startShare() {
   var ses = getSession(globalState.Friends.myid, uid)
   globalState.addSession(uid)
   $("#"+ ses).addClass("activeOnly")
+
+  //reset count for notification
   $("#pal-"+uid).find(".online").html("");
 
+  //request available files
+  globalWs.ws.send(JSON.stringify({
+      action: "request-files",
+      toUid: uid,//"b",
+      fromUid: globalState.Friends.myid,
+      sesid: getSession(globalState.activeFriend, globalState.Friends.myid),
+  }))
   
   // $('.').show();  
   //show box the drag stuff in
