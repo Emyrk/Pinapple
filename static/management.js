@@ -60,7 +60,7 @@ GlobalWs.prototype.Create = function() {
     if (!globalWs.ws) {
         var uid = globalState.Friends.myid
         var query = "?userid="+uid;
-        globalWs.ws = new WebSocket("ws://localhost:8080/mngmt/connect"+query);
+        globalWs.ws = new WebSocket(host+"/mngmt/connect"+query);
     }
 
     //Set global socket

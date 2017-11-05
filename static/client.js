@@ -1,5 +1,6 @@
 /*************** Start of Facebook Code ***************/
 
+var host = "ws://localhost:8080"
 var facebookinit = false
 
 // Called whenever the page is loaded
@@ -159,7 +160,7 @@ Connection.prototype.connect = function(uid, sesid) {
 
     var query = "?userid=" + uid + "&sessionid=" + sesid
 
-    this.ws = new WebSocket("ws://localhost:8080/connect"+query);
+    this.ws = new WebSocket(host+"/connect"+query);
     this.ws.onopen = function(evt) {
         // print("OPEN");
         console.log("OPEN")
