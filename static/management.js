@@ -50,7 +50,8 @@ function addFileToDropZone(sesid, fileName, x, y, mine){
             fromUid: globalState.Friends.myid,//document.getElementById('userid').value,
             sesid: getSession(globalState.activeFriend, globalState.Friends.myid) ,
             
-            domid: $(this).attr("file"),
+            domid: $(this).attr("id"),
+            fileid: $(this).attr("file"),
         }))
     })
 }
@@ -135,7 +136,14 @@ GlobalWs.prototype.Create = function() {
                    console.log(data)
                    var session = globalState.Sessions["" + data.sesid]
                    if(session != undefined) {
-                    session.Con.send("HELLO!")
+                    var f = globalState.Files[data.fileid]
+                    if(f != undefined) {
+                        fi = f.file
+                        // session.Con.send(data)
+                        var x = readBlob(fi, 0, fi.size, function(data){
+                            session.Con.send(data)
+                        })
+                    }
                    }
                 } else {
                     console.log("INFO: no friends for request-files.")
