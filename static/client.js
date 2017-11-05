@@ -127,8 +127,10 @@ Friends.prototype.addFriend = function(personname, uid) {
             $("#contain-"+ sesid).addClass("activeOnly")
 
             globalState.activeFriend = uid
+            $("#sharing-with").show()
             $("#connected-to-user").html(globalState.Friends.people[uid])
         } else {
+            $("#sharing-with").hide()
             $("#confirm-share-name").text($(this).attr("name"));
             $("#confirm-share-name").attr("uid", uid);
             $('#confirmShare').addClass("activeOnly");
