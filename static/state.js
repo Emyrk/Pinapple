@@ -1,7 +1,6 @@
 function GlobalState() {
 	this.Sessions = {}
     this.Friends = new Friends()
-    this.Files = {}
     this.activeFriend = ""
 }
 
@@ -75,8 +74,8 @@ GlobalState.prototype.activateBox = function(sesid) {
                 normlX: ui.draggable.position().left / dropZone.offsetWidth,
                 normlY: ui.draggable.position().top / dropZone.offsetHeight,
             }))
-            globalState.Files[ui.draggable.attr("filename")].xLoc =  ui.draggable.position().left / dropZone.offsetWidth
-            globalState.Files[ui.draggable.attr("filename")].yLoc = ui.draggable.position().top / dropZone.offsetHeight
+            globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")].xLoc =  ui.draggable.position().left / dropZone.offsetWidth
+            globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")].yLoc = ui.draggable.position().top / dropZone.offsetHeight
             
         } else {
         	// New file
@@ -96,7 +95,7 @@ GlobalState.prototype.activateBox = function(sesid) {
         	// ui.draggable.attr("shared", true)
         	console.log("Attr set")
             $(element).attr("shared", true)
-            globalState.Files[e.dataTransfer.files[0].name] = new File(e.dataTransfer.files[0], nx, ny)
+            globalState.Friends.Files[globalState.activeFriend][e.dataTransfer.files[0].name] = new File(e.dataTransfer.files[0], nx, ny)
 
         	addFileToDropZone($(element).attr("id"), e.dataTransfer.files[0].name, e.offsetX-35, e.offsetY-35, true)
         }
