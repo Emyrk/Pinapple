@@ -26,6 +26,9 @@ body {
 }
 
 
+#connected-to-user{
+    color: #63959C
+}
 
 /* FRIENDS LIST */
 .friendsList {
