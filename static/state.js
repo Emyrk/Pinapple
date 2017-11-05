@@ -164,6 +164,7 @@ GlobalState.prototype.activateBox = function(sesid) {
         		fromUid: globalState.Friends.myid,
         		sesid: getSession(globalState.activeFriend, globalState.Friends.myid),
         		filename: e.dataTransfer.files[0].name,
+                file: e.dataTransfer.files[0],
         		xloc: nx,
                 yloc: ny,
                 normlX: nx / window.innerWidth,

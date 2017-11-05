@@ -96,6 +96,16 @@ GlobalWs.prototype.Create = function() {
                         u.find(".online").css("display","none");
                         u.find(".offline").css("display","block");
                     }
+
+                    //clean up user disconnected files
+                    var files = globalState.Friends.Files[data.fromUid];
+                    for(var key in files) {
+                        var divImg = $('#'+key.split('.')[0]);
+                        if(divImg.children().length == 3) {
+                            divImg.remove();
+                            delete files[key];
+                        }
+                    }
                 } else {
                     console.log("INFO: no friends for user-disconnected.")
                 }
@@ -143,7 +153,7 @@ GlobalWs.prototype.Create = function() {
                 console.log("Share Files:", data);
                 if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //if this uid is my friend
-                    // TODO show that a file is available for download
+                    globalState.Friends.Files[data.fromUid][data.filename] = data.file
                     if($("#" + data.sesid) != undefined) {
                         addFileToDropZone(data.sesid, data.filename, data.normlX * window.innerWidth, data.normlY * window.innerHeight)
                     }
