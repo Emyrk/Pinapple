@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="client.css">
+    <script src="index.js"></script>
+    <script src="client.js"></script>
+</head>
+<body>
+    <table>
+        <tr>
+            <td valign="top" width="50%">
+                <p>Click "Open" to create a connection to the server, 
+                    "Send" to send a message to the server and "Close" to close the connection. 
+                    You can change the message and send multiple times.
+                </p>
+                UserID: <input id="userid" type="text" name="fname" value="test"><br>
+                SessionID: <input id="sesid" type="text" name="lname"><br>
+                <form>
+                    <button id="open">Open</button>
+                    <button id="close">Close</button>
+                    <p><input id="input" type="text" value="Hello world!">
+                        <button id="send">Send</button>
+                    </p>
+                </form>
+                <a download="info.txt" id="downloadlink" style="display: none">Download</a>
+            </td>
+            <td valign="top" width="50%">
+                <div id="output"></div>
+            </td>
+        </tr>
+    </table>
+    <div class="upload-drop-zone" id="drop-zone">
+        Just drag and drop files here
+    </div>
+</body>
+</html>

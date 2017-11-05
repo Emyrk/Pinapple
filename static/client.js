@@ -87,6 +87,7 @@ function addFriends(response) {
 
 function Friends() {
     this.people = {};
+    this.Files = {}
 }
 
 Friends.prototype.IsFriendAndIsMe = function(fromUid, toUid) {
@@ -104,6 +105,7 @@ Friends.prototype.SetFriends = function(people) {
 
 Friends.prototype.addFriend = function(personname, uid) {
     this.people[uid] = personname;
+    this.Files[uid] = {}
 
     var listItem = $(`<li class=jessesaran id="pal-` + uid + `" name="` + personname + `">`)
     listItem.append($("<div class=online>"))

@@ -3,8 +3,10 @@
   color: #ccc;
   border-style: dashed;
   border-color: #ccc;
-  height: 200px;
+  height: 500px;
   text-align: center;
+  margin-right: 10%;
+  margin-left: 10%;
 }
 
 /* */
@@ -24,11 +26,10 @@
   min-height: 120px;
 }
 .over {
-  border: solid 5px purple;
+  border: solid 5px #706E7F;
 }
 
 .icon{
-  border: solid 1px;
   height: 55px;
   width: 55px;
 }
@@ -52,6 +53,23 @@
 
 .onlyone.activeOnly {
   display: block;
+}
+
+li.jessesaran > img:hover {
+  cursor: pointer;
+}
+
+div.draggable > img:hover { 
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+div.draggable > img:active { 
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
 }
 
 /*Bounce for the files*/

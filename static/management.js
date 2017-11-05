@@ -14,7 +14,7 @@ function addFileToDropZone(sesid, fileName, x, y, mine){
 
     var fileImgSrc = ""
     for (var i = 0; i < fileExtensions.length; i++){
-        if (fileExt == fileExtensions[i]){
+        if (fileExt.toLowerCase() == fileExtensions[i]){
             fileImgSrc = "/static/img/icons/" + fileExt + ".png"
             console.log("USED EXTENSION")
         } 
@@ -28,7 +28,7 @@ function addFileToDropZone(sesid, fileName, x, y, mine){
     if(mine != undefined && mine) {
         button = ""
     }
-    var draggable = $("<div class='draggable' id='" + domname + "' shared='true'>").css({ "margin-left" : x, "margin-top" : y});
+    var draggable = $("<div class='draggable' id='" + domname + "' shared='true' filename='" + fileName + "'>").css({ "margin-left" : x, "margin-top" : y});
     var icon = $("<img src='" + fileImgSrc + "' class=icon>" + button);
     var fileName = $("<div class='fileName'>").html(fileName);
 
@@ -50,7 +50,8 @@ function addFileToDropZone(sesid, fileName, x, y, mine){
             fromUid: globalState.Friends.myid,//document.getElementById('userid').value,
             sesid: getSession(globalState.activeFriend, globalState.Friends.myid) ,
             
-            domid: $(this).attr("file"),
+            domid: $(this).attr("id"),
+            fileid: $(this).attr("file"),
         }))
     })
 }
@@ -130,15 +131,22 @@ GlobalWs.prototype.Create = function() {
 
             // Request the file over data connection
             case "ask-download-file":
-                console.log("Request Files:", data);
+                console.log("Download Files:", data);
                 if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                    console.log(data)
                    var session = globalState.Sessions["" + data.sesid]
                    if(session != undefined) {
-                    session.Con.send("HELLO!")
+                    var f = globalState.Friends.Files[data.fromUid][data.fileid]
+                    if(f != undefined) {
+                        fi = f.file
+                        // session.Con.send(data)
+                        var x = readBlob(fi, 0, fi.size, function(data){
+                            session.Con.send(data)
+                        })
+                    }
                    }
                 } else {
-                    console.log("INFO: no friends for request-files.")
+                    console.log("INFO: no friends for ask-download-file.")
                 }
                 break
 
@@ -153,6 +161,13 @@ GlobalWs.prototype.Create = function() {
                     // download-link
                     // TODO Return available files
                     //  - action on return = "available-files"
+                    globalWs.ws.send(JSON.stringify({
+                        action: "available-files",
+                        toUid: data.fromUid,
+                        fromUid: data.toUid,
+                        sesid: data.sesid,
+                        files: globalState.Friends.Files[data.fromUid],
+                    }));
                 } else {
                     console.log("INFO: no friends for request-files.")
                 }
@@ -163,6 +178,13 @@ GlobalWs.prototype.Create = function() {
                 console.log("Avilable Files:", data);
                 if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //TODO add in files to screen ui
+                    for(var key in data.files) {
+                        if(!globalState.Friends.Files[data.fromUid][key]) {
+                            globalState.Friends.Files[data.fromUid][key] = data.files[key]
+                            addFileToDropZone(data.sesid, key, data.files[key].xLoc, data.files[key].yLoc)
+                            console.log("INFO: available-files: added file: " + data.files[key].name)
+                        }
+                    }
                 } else {
                     console.log("INFO: no friends for available-files.")
                 }
@@ -175,7 +197,7 @@ GlobalWs.prototype.Create = function() {
                     var filename = data.domid
                     updateLocation($("#"+filename), data.normlX * dropZone.width(), data.normlY * dropZone.height());
                 } else {
-                    console.log("INFO: no friends for available-files.")
+                    console.log("INFO: no friends for update-location.")
                 }
                 break
         }

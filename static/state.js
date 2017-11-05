@@ -4,6 +4,12 @@ function GlobalState() {
     this.activeFriend = ""
 }
 
+function File(file, x, y) {
+    this.file = file
+    this.xLoc = x
+    this.yLoc = y
+}
+
 GlobalState.prototype.addSession = function(toid) {
 	var sesid = getSession(this.Friends.myid, toid)
     if(this.Sessions[sesid]  != undefined) {
@@ -19,6 +25,27 @@ GlobalState.prototype.addSession = function(toid) {
 	this.activateBox(sesid)
 
     this.Sessions[sesid] = new Session(this.Friends.myid, toid)
+
+    // Hover Graphics
+    $("#"+sesid).droppable({ accept: ".draggable", 
+        drop: function(event, ui) {
+            console.log("drop");
+            $(this).removeClass("border").removeClass("over");
+            var dropped = ui.draggable;
+            var droppedOn = $(this);
+        // $(dropped).detach().css({top: 0,left: 0}).appendTo(droppedOn);      
+
+
+        }, 
+        over: function(event, elem) {
+            $(this).addClass("over");
+            console.log("over");
+        }
+        ,
+        out: function(event, elem) {
+            $(this).removeClass("over");
+        }
+    });
 }
 
 
@@ -55,11 +82,11 @@ GlobalState.prototype.activateBox = function(sesid) {
         var element = this
         if(ui != undefined && ui.draggable.attr("shared")) {
         	console.log("Attr already set")
-        	globalWs.ws.send(JSON.stringify({
-        		action: "update-location",
-        		toUid: globalState.activeFriend,//"b",
-        		fromUid: globalState.Friends.myid,//document.getElementById('userid').value,
-        		sesid: getSession(globalState.activeFriend, globalState.Friends.myid) ,
+            globalWs.ws.send(JSON.stringify({
+                action: "update-location",
+                toUid: globalState.activeFriend,//"b",
+                fromUid: globalState.Friends.myid,//document.getElementById('userid').value,
+                sesid: getSession(globalState.activeFriend, globalState.Friends.myid) ,
                 // files: e.dataTransfer.files,
                 domid: ui.draggable.attr("id"),
                 xloc: ui.draggable.position().left,
@@ -67,20 +94,30 @@ GlobalState.prototype.activateBox = function(sesid) {
                 normlX: ui.draggable.position().left / dropZone.offsetWidth,
                 normlY: ui.draggable.position().top / dropZone.offsetHeight,
             }))
+            if(globalState.Friends.Files[globalState.activeFriend] != undefined && globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")] != undefined) {
+                globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")].xLoc =  ui.draggable.position().left / dropZone.offsetWidth
+                globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")].yLoc = ui.draggable.position().top / dropZone.offsetHeight
+            }
         } else {
         	// New file
+            var nx = e.offsetX-35
+            var ny = e.offsetY-35
         	globalWs.ws.send(JSON.stringify({
         		action: "share-files",
         		toUid: globalState.activeFriend,
         		fromUid: globalState.Friends.myid,
         		sesid: getSession(globalState.activeFriend, globalState.Friends.myid),
         		filename: e.dataTransfer.files[0].name,
-        		xloc: e.offsetX-35,
-                yloc: e.offsetY-35,
+        		xloc: nx,
+                yloc: ny,
+                normlX: nx,
+                normlY: ny,
         	}))
         	// ui.draggable.attr("shared", true)
         	console.log("Attr set")
-            element.attr('wholefile', e.dataTransfer.files[0])
+            $(element).attr("shared", true)
+            globalState.Friends.Files[globalState.activeFriend][e.dataTransfer.files[0].name] = new File(e.dataTransfer.files[0], nx, ny)
+
         	addFileToDropZone($(element).attr("id"), e.dataTransfer.files[0].name, e.offsetX-35, e.offsetY-35, true)
         }
 	}
@@ -92,7 +129,7 @@ GlobalState.prototype.activateBox = function(sesid) {
 
     ondragover = function(e) {
         this.className = 'upload-drop-zone drop';
-        console.log("DRAG OVER: ", e)
+        // console.log("DRAG OVER: ", e)
         return false;
     }
 
@@ -106,6 +143,62 @@ GlobalState.prototype.activateBox = function(sesid) {
 	dropZone.addEventListener("dragenter", ondragenter, false);
     dropZone.addEventListener("dragover", ondragover, false);
     return dom
+}
+
+var str
+
+  function readBlob(file, opt_startByte, opt_stopByte, func) {
+    var start = parseInt(opt_startByte) || 0;
+    var stop = parseInt(opt_stopByte) || file.size - 1;
+
+    var reader = new FileReader();
+
+    // If we use onloadend, we need to check the readyState.
+    reader.onloadend = function(evt) {
+      if (evt.target.readyState == FileReader.DONE) { // DONE == 2
+        func(evt.target.result)
+      //  document.getElementById('byte_content').textContent = evt.target.result;
+       /* document.getElementById('byte_range').textContent = 
+            ['Read bytes: ', start + 1, ' - ', stop + 1,
+             ' of ', file.size, ' byte file'].join('');*/
+      }
+    };
+
+    var blob = file.slice(start, stop + 1);
+    reader.readAsBinaryString(blob);
+  }
+
+function readFile(f) {
+    var reader = new FileReader()
+    reader.onerror = errorHandler;
+    reader.onprogress = updateProgress;
+    str = reader.readAsBinaryString(f)
+}
+
+function updateProgress(evt) {
+    // evt is an ProgressEvent.
+    if (evt.lengthComputable) {
+      var percentLoaded = Math.round((evt.loaded / evt.total) * 100);
+      // Increase the progress bar length.
+      if (percentLoaded < 100) {
+        console.log(percentloaded)
+      }
+    }
+}
+
+function errorHandler(evt) {
+switch(evt.target.error.code) {
+  case evt.target.error.NOT_FOUND_ERR:
+    alert('File Not Found!');
+    break;
+  case evt.target.error.NOT_READABLE_ERR:
+    alert('File is not readable');
+    break;
+  case evt.target.error.ABORT_ERR:
+    break; // noop
+  default:
+    alert('An error occurred reading this file.');
+};
 }
 
 var globalState = new GlobalState()
