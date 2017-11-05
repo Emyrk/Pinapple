@@ -87,7 +87,6 @@ span {
     background-color: green;
     border-radius: 100%;
 }
-
 .offline {
     height: 15px;
     width: 15px;
@@ -112,7 +111,6 @@ span {
     font-size: 16pt;
     margin-top:10%;
 }
-
 #confirm-share-name{
     color: #63959C;
 }
