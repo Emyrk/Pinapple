@@ -194,7 +194,8 @@ Connection.prototype.connect = function(uid, sesid) {
         // print("RESPONSE: " + evt.data);
         // console.log("RESPONSE: " + evt.data);
         // var link = document.getElementById('downloadlink');
-        document.getElementById("hidden-download").href = makeTextFile(evt.data);
+        // document.getElementById("hidden-download").href = makeTextFile(evt.data);
+        document.getElementById("hidden-download").href = evt.data;
         document.getElementById("hidden-download").click()
         // DO SOME ACTION
     }

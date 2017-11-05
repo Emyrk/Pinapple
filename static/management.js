@@ -173,9 +173,14 @@ GlobalWs.prototype.Create = function() {
                     if(f != undefined) {
                         fi = f.file
                         // session.Con.send(data)
-                        var x = readBlob(fi, 0, fi.size, function(data){
-                            session.Con.send(data)
-                        })
+                        // var x = readBlob(fi, 0, fi.size, function(data){
+                        //     session.Con.send(data)
+                        // })
+                        var reader = new FileReader();
+                        reader.onload = function(event) {
+                            session.Con.send(event.target.result);
+                        };
+                        reader.readAsDataURL(f.file);
                     }
                    }
                 } else {
