@@ -180,6 +180,7 @@ GlobalWs.prototype.Create = function() {
                     //TODO add in files to screen ui
                     for(var key in data.files) {
                         if(!globalState.Files[key]) {
+                            globalState.Files[key] = data.files[key]
                             addFileToDropZone(data.sesid, key, data.files[key].xLoc, data.files[key].yLoc)
                             console.log("INFO: available-files: added file: " + data.files[key].name)
                         }
