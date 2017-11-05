@@ -118,12 +118,13 @@ span {
 
 .appContent{
    float: right;
-   padding-top: 5%;
+   display: flex;
    align-items: center;
    text-align: center;
    justify-content: center;
     width: 90%;
     height:100%;
+    min-height:100vh;
     margin:0;
 }
 
@@ -132,10 +133,31 @@ span {
     font-size: 16pt;
 }
 
-.loginBody{
-    margin: 0 auto;
+.loginBody {
+    background-image: url('../static/img/wallpaper.png');
+    color: #63959C;
+    font-size: 20pt;
+    margin: 0 ;
+    display: flex;
+    align-items: center;
     text-align: center;
     justify-content: center;
+    height: 100%;
+    width: 100%;
+    flex-direction: column;
+}
+
+.loginBody h1{
+    margin: 20px;
+}
+.loginBody h5{
+    color: #63959C; 
+}
+
+#fb-root {
+    display: block;
+    padding: 3%;
+    
 }
 
 /* MEDIA QUERIES */
@@ -145,5 +167,25 @@ span {
     }
     .friendsList {
         width: 100px;
+    }
+
+    .appContent{
+        width: 80%;
+    }
+}
+
+@media screen and (max-width: 610px) {
+
+    .loginBody h1 {
+        font-size: 24pt;
+        font-weight: bold;
+    }
+
+    .loginBody h5{   
+        font-size: 12pt;
+    }
+    .appContent{
+        width: 65%;
+        margin: 0 10px;
     }
 }

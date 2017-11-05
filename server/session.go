@@ -22,6 +22,8 @@ type SessionManager struct {
 	// 		Value --> Pointer to Connection Pair (echo chamber)
 	Sessions    map[string]*Session
 	sessionLock sync.RWMutex
+
+	host string
 }
 
 func (s *SessionManager) Status() string {
@@ -38,24 +40,29 @@ func (s *SessionManager) Status() string {
 func NewSessionManager() *SessionManager {
 	m := new(SessionManager)
 	m.Sessions = make(map[string]*Session)
+	m.host = "ws://localhost:8080"
 
 	return m
 }
 
-func home(w http.ResponseWriter, r *http.Request) {
+func (m *SessionManager) SetHost(h string) {
+	m.host = h
+}
+
+func (m *SessionManager) home(w http.ResponseWriter, r *http.Request) {
 	homeTemplate, err := template.New("client.html").ParseFiles(clientTemplate)
 	if err != nil {
 		fmt.Println("Error rendering home template: ", err.Error())
 	}
-	homeTemplate.Execute(w, "ws://"+r.Host+"/connect")
+	homeTemplate.Execute(w, m.host)
 }
 
-func login(w http.ResponseWriter, r *http.Request) {
+func (m *SessionManager) login(w http.ResponseWriter, r *http.Request) {
 	loginTemplate, err := template.New("login.html").ParseFiles(loginTemplate)
 	if err != nil {
 		fmt.Println("Error rendering home template: ", err.Error())
 	}
-	loginTemplate.Execute(w, "ws://"+r.Host+"/connect")
+	loginTemplate.Execute(w, m.host)
 }
 
 func (s *SessionManager) Listen(port int) {
@@ -63,8 +70,8 @@ func (s *SessionManager) Listen(port int) {
 	fmt.Println(baseDir)
 	fs := http.FileServer(http.Dir(baseDir))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
-	http.HandleFunc("/", home)
-	http.HandleFunc("/login", login)
+	http.HandleFunc("/", s.home)
+	http.HandleFunc("/login", s.login)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
 }
 
@@ -222,7 +229,7 @@ func (c *Connection) Echo(con *Connection) {
 		default:
 		}
 		mt, message, err := c.Conn.ReadMessage()
-		fmt.Println("READ: ", string(message))
+		//fmt.Println("READ: ", string(message))
 		if err != nil {
 			// It's closed
 			c.alive = false
@@ -242,7 +249,7 @@ func (c *Connection) Echo(con *Connection) {
 		}
 
 		err = con.Conn.WriteMessage(mt, message)
-		fmt.Println("WRITE: ", string(message))
+		//fmt.Println("WRITE: ", string(message))
 		if err != nil {
 			// Probably should manage this better
 			time.Sleep(1 * time.Second)

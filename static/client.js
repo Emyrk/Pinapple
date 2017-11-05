@@ -1,6 +1,6 @@
 /*************** Start of Facebook Code ***************/
 
-var host = "ws://localhost:8080"
+var host = $("#host-name").text()//"ws://localhost:8080"
 var facebookinit = false
 
 // Called whenever the page is loaded
@@ -124,6 +124,8 @@ Friends.prototype.addFriend = function(personname, uid) {
         $('#mainScreen').removeClass("activeOnly");
         if(globalState.Sessions[sesid] != undefined) {
             $("#"+sesid).addClass("activeOnly")
+            $("#contain-"+ sesid).addClass("activeOnly")
+
             globalState.activeFriend = uid
         } else {
             $("#confirm-share-name").text($(this).attr("name"));

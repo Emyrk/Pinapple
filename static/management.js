@@ -28,7 +28,7 @@ function addFileToDropZone(sesid, fileName, x, y, mine){
     if(mine != undefined && mine) {
         button = ""
     }
-    var draggable = $("<div class='draggable' id='" + domname + "' shared='true' filename='" + fileName + "'>").css({ "left" : x, "top" : y});
+    var draggable = $("<div class='child draggable' id='" + domname + "' shared='true' filename='" + fileName + "'>").css({ "left" : x, "top" : y});
     var icon = $("<img src='" + fileImgSrc + "' class=icon>" + button);
     var fileName = $("<div class='fileName'>").html(fileName);
 
@@ -36,7 +36,8 @@ function addFileToDropZone(sesid, fileName, x, y, mine){
     draggable.append(fileName);
     draggable.attr("shared", true)
 
-    $("body").append(draggable)
+    //$("body").append(draggable)
+    $("#contain-"+sesid).append(draggable)
     //$("#"+sesid).append(draggable);
     $( ".draggable" ).draggable({ cursor: "crosshair", revert: "invalid"});
 
@@ -199,6 +200,7 @@ GlobalWs.prototype.Create = function() {
                         fromUid: data.toUid,
                         sesid: data.sesid,
                         files: globalState.Friends.Files[data.fromUid],
+
                     }));
                 } else {
                     console.log("INFO: no friends for request-files.")
@@ -213,7 +215,7 @@ GlobalWs.prototype.Create = function() {
                     for(var key in data.files) {
                         if(!globalState.Friends.Files[data.fromUid][key]) {
                             globalState.Friends.Files[data.fromUid][key] = data.files[key]
-                            addFileToDropZone(data.sesid, key, data.files[key].xLoc, data.files[key].yLoc)
+                            addFileToDropZone(data.sesid, key, data.files[key].xLoc*window.innerWidth, data.files[key].yLoc*window.innerHeight)
                             console.log("INFO: available-files: added file: " + data.files[key].name)
                         }
                     }
