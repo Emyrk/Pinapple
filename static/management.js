@@ -24,7 +24,8 @@ function addFileToDropZone(sesid, fileName, x, y, mine){
     }
 
     var domname = fileName.split('.')[0]
-    var button = "<button id='" + domname+ "-button' file='" + fileName + "'' sesid='" + sesid + "'>Download</button>"
+    // var button = "<button id='" + domname+ "-button' file='" + fileName + "'' sesid='" + sesid + "'>Download</button>"
+    var button = "<img id='" + domname+ "-button' file='" + fileName + "' sesid='" + sesid + "' src='/static/img/download.png'>"
     if(mine != undefined && mine) {
         button = ""
     }
