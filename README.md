@@ -20,11 +20,11 @@ The biggest problem we ran into is the limitations browsers have interacting wit
 
 ## Accomplishments that we're proud of
 
-We are proud of our name. 
+We are proud of how methodically we were able to move through our project. While each of us have attended hackathons in the past, many of us felt like this was the first time we worked together as a team. Communication was solid and version control was used effectively even while working on a small project with four people.
 
 ## What we learned
 
-That we're pretty good at this kinda thing.
+We learned a lot about web sockets and transfering files peer to peer. We also learned that in today's day and age you can create a full fledged application in the web browser. 
 
 ## What's next for Pinapple
 
