@@ -131,7 +131,7 @@ GlobalWs.prototype.Create = function() {
 
             // Request the file over data connection
             case "ask-download-file":
-                console.log("Request Files:", data);
+                console.log("Download Files:", data);
                 if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                    console.log(data)
                    var session = globalState.Sessions["" + data.sesid]
@@ -146,7 +146,7 @@ GlobalWs.prototype.Create = function() {
                     }
                    }
                 } else {
-                    console.log("INFO: no friends for request-files.")
+                    console.log("INFO: no friends for ask-download-file.")
                 }
                 break
 
@@ -161,6 +161,13 @@ GlobalWs.prototype.Create = function() {
                     // download-link
                     // TODO Return available files
                     //  - action on return = "available-files"
+                    globalWs.ws.send(JSON.stringify({
+                        action: "available-files",
+                        toUid: data.fromUid,
+                        fromUid: data.toUid,
+                        sesid: data.sesid,
+                        files: globalState.Files,
+                    }));
                 } else {
                     console.log("INFO: no friends for request-files.")
                 }
@@ -171,6 +178,12 @@ GlobalWs.prototype.Create = function() {
                 console.log("Avilable Files:", data);
                 if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //TODO add in files to screen ui
+                    for(var key in data.files) {
+                        if(!globalState.Files[key]) {
+                            addFileToDropZone(data.sesid, key, data.files[key].xLoc, data.files[key].yLoc)
+                            console.log("INFO: available-files: added file: " + data.files[key].name)
+                        }
+                    }
                 } else {
                     console.log("INFO: no friends for available-files.")
                 }
@@ -183,7 +196,7 @@ GlobalWs.prototype.Create = function() {
                     var filename = data.domid
                     updateLocation($("#"+filename), data.normlX * dropZone.width(), data.normlY * dropZone.height());
                 } else {
-                    console.log("INFO: no friends for available-files.")
+                    console.log("INFO: no friends for update-location.")
                 }
                 break
         }
