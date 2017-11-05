@@ -56,7 +56,6 @@ function checkLoginState() {
         var queryString = "/me"
         FB.api(queryString, function(response) {
             globalState.Friends.myid = response.id
-            initGlobalWS()
         });
         
         queryString = "/me/friends"
@@ -64,13 +63,14 @@ function checkLoginState() {
         FB.api(queryString, function(response) {
             console.log(JSON.stringify(response));
             addFriends(response)
+            initGlobalWS()
         });
     });
   }
 
 function initGlobalWS() {
     if(!facebookinit) {
-        globalWs.Create()
+        globalWs.Create();
         facebookinit = true
     }
 }

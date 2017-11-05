@@ -53,21 +53,21 @@ function checkLoginState() {
         var queryString = "/me"
         FB.api(queryString, function(response) {
             globalState.Friends.myid = response.id
-            initGlobalWS()
         });
         
         queryString = "/me/friends"
         
         FB.api(queryString, function(response) {
             console.log(JSON.stringify(response));
-            addFriends(response)
+            addFriends(response);
+            initGlobalWS();
         });
     });
   }
 
 function initGlobalWS() {
     if(!facebookinit) {
-        globalWs.Create()
+        globalWs.Create();
         facebookinit = true
     }
 }
@@ -106,14 +106,15 @@ Friends.prototype.addFriend = function(personname, uid) {
     this.Files[uid] = {}
 
     var listItem = $(`<li class=jessesaran id="pal-` + uid + `" name="` + personname + `">`)
-    listItem.append($("<div class=online>"))
+    listItem.append($("<div class=online style=display:none;>"))
+    listItem.append($("<div class=offline>"))
     listItem.append($("<img src=http://graph.facebook.com/" + uid + "/picture?width=150&height=150>"));
     listItem.append($("<h5>").html(personname))
     
     $("#friendlist").append(listItem)
 
     $("#pal-"+uid).on('click', function(){
-        this.find(".online").html("")
+        $(this).find(".online").html("")
         $(".activeOnly").removeClass("activeOnly")
         var sesid = getSession(uid, globalState.Friends.myid)
         $('#mainScreen').removeClass("activeOnly");
