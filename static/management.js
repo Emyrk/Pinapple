@@ -230,11 +230,10 @@ GlobalWs.prototype.Create = function() {
                 break
             case "update-location":
                 // Need id, x, y
-                console.log("Update Location", data)
                 if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //TODO add in files to screen ui
                     var filename = data.domid
-                    console.log(data)
+                    //console.log(filename)
                     updateLocation($("#"+filename), data.normlX * window.innerWidth, data.normlY * window.innerHeight);
                 } else {
                     console.log("INFO: no friends for update-location.")

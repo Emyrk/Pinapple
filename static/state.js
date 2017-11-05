@@ -32,7 +32,9 @@ GlobalState.prototype.addSession = function(toid) {
     // Hover Graphics
     $("#"+sesid).droppable({ accept: ".draggable", 
         drop: function(event, ui) {
-            console.log("drop");
+            dragState = "dropped"
+            dragItem = null
+            console.log("dropped");
             $(this).removeClass("border").removeClass("over");
             var dropped = ui.draggable;
             var droppedOn = $(this);
@@ -42,10 +44,15 @@ GlobalState.prototype.addSession = function(toid) {
         }, 
         over: function(event, elem) {
             $(this).addClass("over");
-            console.log("over");
+            dragState = "pickedup"
+            dragItem = elem
+            console.log("pickedup");
         }
         ,
         out: function(event, elem) {
+            dragState = "dropped"
+            dragItem = null
+            console.log("dropped")
             $(this).removeClass("over");
         }
     });
@@ -59,6 +66,11 @@ function Session(myid, toid) {
 	this.Con.connect(myid, getSession(myid, toid))
 }
 
+var dragState = "drop"
+var dragItem = null
+var updateCount = 0
+var uBuffer = 2
+
 GlobalState.prototype.activateBox = function(sesid) {
 	var dom = $("#"+sesid)
 	dom.droppable({ accept: ".draggable", 
@@ -71,10 +83,47 @@ GlobalState.prototype.activateBox = function(sesid) {
 	});
 		// $(dropped).detach().css({top: 0,left: 0}).appendTo(droppedOn);      
 
+    onmousemove = function(e, ui){
+        e.stopPropagation();
+        e.preventDefault();
+        
+        updateCount++;
+
+        if(globalWs.ws == undefined) {
+        	return
+        }
+
+        var element = this
+        if(updateCount % uBuffer == 0 && dragItem != undefined && dragItem.draggable.attr("shared") && dragState == "pickedup") {
+			//console.log(e)
+			
+            globalWs.ws.send(JSON.stringify({
+                action: "update-location",
+                toUid: globalState.activeFriend,//"b",
+                fromUid: globalState.Friends.myid,//document.getElementById('userid').value,
+                sesid: getSession(globalState.activeFriend, globalState.Friends.myid) ,
+                // files: e.dataTransfer.files,
+                domid: dragItem.draggable.attr("id"),
+                xloc: (e.pageX-35),
+                yloc: (e.pageY-35),
+                normlX: (e.pageX-35) / window.innerWidth,
+                normlY: (e.pageY-35) / window.innerHeight,
+            }))
+
+            if(globalState.Friends.Files[globalState.activeFriend] != undefined && globalState.Friends.Files[globalState.activeFriend][dragItem.draggable.attr("filename")] != undefined && dragState == "pickedup") {
+                globalState.Friends.Files[globalState.activeFriend][dragItem.draggable.attr("filename")].xLoc =  dragItem.position.left / window.innerWidth
+                globalState.Friends.Files[globalState.activeFriend][dragItem.draggable.attr("filename")].yLoc = dragItem.position.top / window.innerHeight
+            }
+        }
+    }
+
 	ondrop = function(e, ui) {
 		e.stopPropagation();
 		e.preventDefault();
 
+        dragState = "dropped"
+        dragItem = null
+        console.log("dropped")
         // this.className = 'upload-drop-zone';
 
         if(globalWs.ws == undefined) {
@@ -139,6 +188,8 @@ GlobalState.prototype.activateBox = function(sesid) {
     ondragover = function(e) {
         // this.className = 'upload-drop-zone drop';
         // console.log("DRAG OVER: ", e)
+
+        
         return false;
     }
 
@@ -147,7 +198,9 @@ GlobalState.prototype.activateBox = function(sesid) {
         return false;
     }
 
-	var dropZone = document.getElementById(sesid);
+
+    var dropZone = document.getElementById(sesid);
+    dropZone.addEventListener("mousemove", onmousemove, false);
 	dropZone.addEventListener("drop", ondrop, false);
 	dropZone.addEventListener("dragenter", ondragenter, false);
     dropZone.addEventListener("dragover", ondragover, false);
