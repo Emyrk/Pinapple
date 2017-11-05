@@ -113,7 +113,7 @@ GlobalWs.prototype.Create = function() {
                     //if this uid is my friend
                     // TODO show that a file is available for download
                     if($("#" + data.sesid) != undefined) {
-                        addFileToDropZone(data.sesid, data.filename, data.xloc, data.yloc)
+                        addFileToDropZone(data.sesid, data.filename, data.normlX * window.innerWidth, data.normlY * window.innerHeight)
                     }
                     //bounce effect
                     var pal = $("#pal-" + data.fromUid);
@@ -196,7 +196,8 @@ GlobalWs.prototype.Create = function() {
                 if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //TODO add in files to screen ui
                     var filename = data.domid
-                    updateLocation($("#"+filename), data.normlX * window.innerWidth, data.normlY * innerHeight);
+                    console.log(data)
+                    updateLocation($("#"+filename), data.normlX * window.innerWidth, data.normlY * window.innerHeight);
                 } else {
                     console.log("INFO: no friends for update-location.")
                 }

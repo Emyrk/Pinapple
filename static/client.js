@@ -113,7 +113,7 @@ Friends.prototype.addFriend = function(personname, uid) {
     $("#friendlist").append(listItem)
 
     $("#pal-"+uid).on('click', function(){
-        this.find(".online").html("")
+        $(this).find(".online").html("")
         $(".activeOnly").removeClass("activeOnly")
         var sesid = getSession(uid, globalState.Friends.myid)
         $('#mainScreen').removeClass("activeOnly");
