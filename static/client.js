@@ -20,7 +20,7 @@ window.fbAsyncInit = function() {
         
         // if the user is logged in, return a list of their friends
         if (response.status != "connected"){
-            window.location.replace("login.html")
+            window.location.replace("login")
         }
 
         if (response.status == "connected"){
