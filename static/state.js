@@ -61,8 +61,8 @@ GlobalState.prototype.activateBox = function(sesid) {
 
         var element = this
         if(ui != undefined && ui.draggable.attr("shared")) {
-        	console.log("Attr already set")
-            console.log("Attr already set")
+        	console.log(ui.position.left)
+            console.log(ui.position.top)
             globalWs.ws.send(JSON.stringify({
                 action: "update-location",
                 toUid: globalState.activeFriend,//"b",
@@ -70,18 +70,22 @@ GlobalState.prototype.activateBox = function(sesid) {
                 sesid: getSession(globalState.activeFriend, globalState.Friends.myid) ,
                 // files: e.dataTransfer.files,
                 domid: ui.draggable.attr("id"),
-                xloc: ui.draggable.position().left,
-                yloc: ui.draggable.position().top,
-                normlX: ui.draggable.position().left / dropZone.offsetWidth,
-                normlY: ui.draggable.position().top / dropZone.offsetHeight,
+                xloc: ui.draggable.position.left,
+                yloc: ui.draggable.position.top,
+                normlX: ui.draggable.position.left / dropZone.offsetWidth,
+                normlY: ui.draggable.position.top / dropZone.offsetHeight,
             }))
             globalState.Files[ui.draggable.attr("filename")].xLoc =  ui.draggable.position().left / dropZone.offsetWidth
             globalState.Files[ui.draggable.attr("filename")].yLoc = ui.draggable.position().top / dropZone.offsetHeight
             
         } else {
-        	// New file
-            var nx = e.offsetX-35
-            var ny = e.offsetY-35
+			// New file
+			
+            var nx = e.pageX
+			var ny = e.pageY
+			
+			console.log(nx + "   " + ny)
+
         	globalWs.ws.send(JSON.stringify({
         		action: "share-files",
         		toUid: globalState.activeFriend,
@@ -90,15 +94,15 @@ GlobalState.prototype.activateBox = function(sesid) {
         		filename: e.dataTransfer.files[0].name,
         		xloc: nx,
                 yloc: ny,
-                normlX: nx,
-                normlY: ny,
+                normlX: nx / window.innerWidth,
+                normlY: ny / window.innerHeight,
         	}))
         	// ui.draggable.attr("shared", true)
         	console.log("Attr set")
             $(element).attr("shared", true)
             globalState.Files[e.dataTransfer.files[0].name] = new File(e.dataTransfer.files[0], nx, ny)
 
-        	addFileToDropZone($(element).attr("id"), e.dataTransfer.files[0].name, e.offsetX-35, e.offsetY-35, true)
+        	addFileToDropZone($(element).attr("id"), e.dataTransfer.files[0].name, e.pageX - 35, e.pageY - 35, true)
         }
 	}
 

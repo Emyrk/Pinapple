@@ -30,9 +30,6 @@ window.fbAsyncInit = function() {
             FB.api(queryString, function(response) {
                 console.log(JSON.stringify(response));
                 addFriends(response)
-                // var profilePicQS = $(`<img src=http://graph.facebook.com/` + response.data[0].id + `/picture?type=normal>`)
-                // console.log(profilePicQS)
-                // $(document.body).append(profilePicQS)
             });
         }
     });
