@@ -26,11 +26,10 @@
   min-height: 120px;
 }
 .over {
-  border: solid 5px purple;
+  border: solid 5px #706E7F;
 }
 
 .icon{
-  border: solid 1px;
   height: 55px;
   width: 55px;
 }
