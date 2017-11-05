@@ -121,6 +121,11 @@ span {
     font-size: 16pt;
 }
 
+.loginBody{
+    margin: 0 auto;
+    text-align: center;
+    justify-content: center;
+}
 
 /* MEDIA QUERIES */
 @media screen and (max-width: 900px) {
