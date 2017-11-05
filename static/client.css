@@ -26,7 +26,7 @@
   min-height: 120px;
 }
 .over {
-  border: solid 5px purple;
+  border: solid 5px #706E7F;
 }
 
 .icon{
@@ -53,6 +53,23 @@
 
 .onlyone.activeOnly {
   display: block;
+}
+
+li.jessesaran > img:hover {
+  cursor: pointer;
+}
+
+div.draggable > img:hover { 
+    cursor: move;
+    cursor: grab;
+    cursor: -moz-grab;
+    cursor: -webkit-grab;
+}
+
+div.draggable > img:active { 
+    cursor: grabbing;
+    cursor: -moz-grabbing;
+    cursor: -webkit-grabbing;
 }
 
 /*Bounce for the files*/

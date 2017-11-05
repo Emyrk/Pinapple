@@ -1,7 +1,6 @@
 function GlobalState() {
 	this.Sessions = {}
     this.Friends = new Friends()
-    this.Files = {}
     this.activeFriend = ""
 }
 
@@ -26,6 +25,27 @@ GlobalState.prototype.addSession = function(toid) {
 	this.activateBox(sesid)
 
     this.Sessions[sesid] = new Session(this.Friends.myid, toid)
+
+    // Hover Graphics
+    $("#"+sesid).droppable({ accept: ".draggable", 
+        drop: function(event, ui) {
+            console.log("drop");
+            $(this).removeClass("border").removeClass("over");
+            var dropped = ui.draggable;
+            var droppedOn = $(this);
+        // $(dropped).detach().css({top: 0,left: 0}).appendTo(droppedOn);      
+
+
+        }, 
+        over: function(event, elem) {
+            $(this).addClass("over");
+            console.log("over");
+        }
+        ,
+        out: function(event, elem) {
+            $(this).removeClass("over");
+        }
+    });
 }
 
 
@@ -61,8 +81,12 @@ GlobalState.prototype.activateBox = function(sesid) {
 
         var element = this
         if(ui != undefined && ui.draggable.attr("shared")) {
+<<<<<<< HEAD
         	console.log(ui.position.left)
             console.log(ui.position.top)
+=======
+        	console.log("Attr already set")
+>>>>>>> origin/master
             globalWs.ws.send(JSON.stringify({
                 action: "update-location",
                 toUid: globalState.activeFriend,//"b",
@@ -75,9 +99,10 @@ GlobalState.prototype.activateBox = function(sesid) {
                 normlX: ui.draggable.position.left / dropZone.offsetWidth,
                 normlY: ui.draggable.position.top / dropZone.offsetHeight,
             }))
-            globalState.Files[ui.draggable.attr("filename")].xLoc =  ui.draggable.position().left / dropZone.offsetWidth
-            globalState.Files[ui.draggable.attr("filename")].yLoc = ui.draggable.position().top / dropZone.offsetHeight
-            
+            if(globalState.Friends.Files[globalState.activeFriend] != undefined && globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")] != undefined) {
+                globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")].xLoc =  ui.draggable.position().left / dropZone.offsetWidth
+                globalState.Friends.Files[globalState.activeFriend][ui.draggable.attr("filename")].yLoc = ui.draggable.position().top / dropZone.offsetHeight
+            }
         } else {
 			// New file
 			
@@ -100,7 +125,7 @@ GlobalState.prototype.activateBox = function(sesid) {
         	// ui.draggable.attr("shared", true)
         	console.log("Attr set")
             $(element).attr("shared", true)
-            globalState.Files[e.dataTransfer.files[0].name] = new File(e.dataTransfer.files[0], nx, ny)
+            globalState.Friends.Files[globalState.activeFriend][e.dataTransfer.files[0].name] = new File(e.dataTransfer.files[0], nx, ny)
 
         	addFileToDropZone($(element).attr("id"), e.dataTransfer.files[0].name, e.pageX - 35, e.pageY - 35, true)
         }
@@ -113,7 +138,7 @@ GlobalState.prototype.activateBox = function(sesid) {
 
     ondragover = function(e) {
         this.className = 'upload-drop-zone drop';
-        console.log("DRAG OVER: ", e)
+        // console.log("DRAG OVER: ", e)
         return false;
     }
 

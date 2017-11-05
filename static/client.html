@@ -30,48 +30,17 @@
             <h4> Click to start sharing with <span id="confirm-share-name" uid=""></span> </h4>
             <button type="button" onclick="startShare()"> Share </button>
         </div>
+       
+       
         <div id="wrapper">
+                <h4 id="shareWith" style="display: none;"> You are sharing with <span id="confirm-share-name" uid=""></span> </h4>
             <div id="download-container">
-                <div class="upload-drop-zone" id="drop-zone" style="display: none;">
-                    Just drag and drop files here
+                
                 </div>
-            </div>
         </div>
-
-    </div>
-     <div id="fb-root"></div>
-    <div class="fb-login-button" data-max-rows="1" data-size="large" data-button-type="continue_with" data-show-faces="false" data-auto-logout-link="false" data-use-continue-as="false"
-    data-scope="user_friends"
-    onlogin="checkLoginState()"></div>
-<h1>
-    Fake Login
-</h1>
-UserID: <input class="idset" id="userid" type="text" name="fname"><br> <p id="myid"></p>
-<button class="idset" id="setuserid">Login with id</button>
-<hr>
-<div>
-    <h1>Friends</h1>
-    FriendID: <input id="friendid" type="text" name="fname"><br> <p id="myid"></p>
-    <button id="addfriendid">Add Friend ID</button>
-    <ul id="friends"></ul>
-    <hr>
-</div>
-<!--<img src="/static/img/rodel.png" id="img1" class="draggable" shared="true"></img>-->
-
-
-<!-- 
-<div id="wrapper">
-
-    <div id="download-container">
-        <div class="upload-drop-zone" id="drop-zone" style="display: none;">
-            Just drag and drop files here
+            
+            
+            <a id="hidden-download" style="display: none;" download><a/>    
         </div>
-    </div>
-
-    <img src="/static/img/rodel.png" id="img1" class="draggable" shared="true"></img>
-</div> -->
-
-<a id="download-link" href="" download> Download</a>
-<a id="hidden-download" style="display: none;" download><a/>
 </body>
 </html>

@@ -1,7 +1,7 @@
 /*
 COLORS:
 soap: #C9C4E4
-offwhite: #
+offwhite: #fdfdfd
 gunmetal: #2B303A
 cornflower: #63959C
 grey: #7C7C7C
@@ -104,14 +104,16 @@ span {
 #confirm-share-name{
     color: #63959C;
 }
+
 .appContent{
    float: right;
-   padding-top: 10%;
+   padding-top: 5%;
    align-items: center;
    text-align: center;
    justify-content: center;
     width: 90%;
-    height: 100vh;
+    height:100%;
+    margin:0;
 }
 
 .direc {
