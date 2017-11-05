@@ -11,6 +11,11 @@ import (
 	"github.com/gorilla/websocket"
 )
 
+var (
+	SSLCert = "/home/ubuntu/.caddy/acme/acme-v01.api.letsencrypt.org/sites/pinapple.me/pinapple.me.crt"
+	SSLKey  = "/home/ubuntu/.caddy/acme/acme-v01.api.letsencrypt.org/sites/pinapple.me/pinapple.me.key"
+)
+
 type ManagementHandler struct {
 	Clients    map[string]*ManagementClient
 	clientLock sync.RWMutex
@@ -37,6 +42,11 @@ func (m *ManagementHandler) AddBroadcast(uid string, t int, data []byte) { //t =
 func (m *ManagementHandler) Listen(port int) {
 	http.HandleFunc("/mngmt/connect", m.connect)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
+}
+
+func (m *ManagementHandler) ListenTLS(port int) {
+	http.HandleFunc("/mngmt/connect", m.connect)
+	log.Fatal(http.ListenAndServeTLS(fmt.Sprintf(":%d", port), SSLCert, SSLKey, nil))
 }
 
 func (m *ManagementHandler) connect(w http.ResponseWriter, r *http.Request) {

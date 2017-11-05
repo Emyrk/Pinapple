@@ -112,7 +112,7 @@ Friends.prototype.addFriend = function(personname, uid) {
     var listItem = $(`<li class=jessesaran id="pal-` + uid + `" name="` + personname + `">`)
     listItem.append($("<div class=online style=display:none;>"))
     listItem.append($("<div class=offline>"))
-    listItem.append($("<img src=http://graph.facebook.com/" + uid + "/picture?width=150&height=150>"));
+    listItem.append($("<img src=https://graph.facebook.com/" + uid + "/picture?width=150&height=150>"));
     listItem.append($("<h5>").html(personname))
     
     $("#friendlist").append(listItem)
@@ -127,7 +127,10 @@ Friends.prototype.addFriend = function(personname, uid) {
             $("#contain-"+ sesid).addClass("activeOnly")
 
             globalState.activeFriend = uid
+            $("#sharing-with").show()
+            $("#connected-to-user").html(globalState.Friends.people[uid])
         } else {
+            $("#sharing-with").hide()
             $("#confirm-share-name").text($(this).attr("name"));
             $("#confirm-share-name").attr("uid", uid);
             $('#confirmShare').addClass("activeOnly");
@@ -179,7 +182,7 @@ Connection.prototype.connect = function(uid, sesid) {
     }
     this.ws.onmessage = function(evt) {
         // print("RESPONSE: " + evt.data);
-        console.log("RESPONSE: " + evt.data);
+        // console.log("RESPONSE: " + evt.data);
         // var link = document.getElementById('downloadlink');
         document.getElementById("hidden-download").href = makeTextFile(evt.data);
         document.getElementById("hidden-download").click()

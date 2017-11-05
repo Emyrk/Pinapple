@@ -15,7 +15,7 @@ function addFileToDropZone(sesid, fileName, x, y, mine){
     var fileImgSrc = ""
     for (var i = 0; i < fileExtensions.length; i++){
         if (fileExt.toLowerCase() == fileExtensions[i]){
-            fileImgSrc = "/static/img/icons/" + fileExt + ".png"
+            fileImgSrc = "/static/img/icons/" + fileExt.toLowerCase() + ".png"
             console.log("USED EXTENSION")
         } 
     }
@@ -83,7 +83,6 @@ GlobalWs.prototype.Create = function() {
     globalWs.ws.onmessage = function(evt) {
         data = JSON.parse(evt.data);
         var dropZone = $("#"+data.sesid)
-        console.log("RESPONSE: " + data);
         switch (data.action) {
             case "user-disconnected":
                 //msg sent by server when user disconnects

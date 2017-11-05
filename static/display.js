@@ -62,6 +62,8 @@ function startShare() {
   globalState.addSession(uid)
   $("#"+ ses).addClass("activeOnly")
   $("#contain-"+ ses).addClass("activeOnly")
+  $("#sharing-with").show()
+  $("#connected-to-user").html(globalState.Friends.people[uid])
 
   //reset count for notification
   $("#pal-"+uid).find(".online").html("");

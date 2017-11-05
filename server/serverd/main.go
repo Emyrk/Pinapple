@@ -26,11 +26,19 @@ func main() {
 		sm.SetHost("wss://pinapple.me")
 	}
 
-	go sm.Listen(*addr)
+	if *remote {
+		go sm.Listen(*addr)
+	} else {
+		go sm.Listen(*addr)
+	}
 	go sm.Manage()
 
 	mngmt := server.NewManagementHandler()
-	go mngmt.Listen(8000)
+	if *remote {
+		go mngmt.Listen(8000)
+	} else {
+		go mngmt.Listen(8000)
+	}
 
 	Control(sm)
 }
