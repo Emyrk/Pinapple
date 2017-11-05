@@ -65,14 +65,23 @@ func (m *SessionManager) login(w http.ResponseWriter, r *http.Request) {
 	loginTemplate.Execute(w, m.host)
 }
 
-func (s *SessionManager) Listen(port int) {
+func (s *SessionManager) listen(port int) {
 	http.HandleFunc("/connect", s.connect)
 	fmt.Println(baseDir)
 	fs := http.FileServer(http.Dir(baseDir))
 	http.Handle("/static/", http.StripPrefix("/static/", fs))
 	http.HandleFunc("/", s.home)
 	http.HandleFunc("/login", s.login)
+}
+
+func (s *SessionManager) Listen(port int) {
+	s.listen(port)
 	log.Fatal(http.ListenAndServe(fmt.Sprintf(":%d", port), nil))
+}
+
+func (s *SessionManager) ListenTLS(port int) {
+	s.listen(port)
+	log.Fatal(http.ListenAndServeTLS(fmt.Sprintf(":%d", port), SSLCert, SSLKey, nil))
 }
 
 func (s *SessionManager) connect(w http.ResponseWriter, r *http.Request) {
