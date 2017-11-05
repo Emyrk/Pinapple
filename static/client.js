@@ -113,9 +113,10 @@ Friends.prototype.addFriend = function(personname, uid) {
     $("#friendlist").append(listItem)
 
     $("#pal-"+uid).on('click', function(){
+        this.find(".online").html("")
         $(".activeOnly").removeClass("activeOnly")
         var sesid = getSession(uid, globalState.Friends.myid)
-        $('#download-container').children().removeClass("activeOnly");
+        $('#mainScreen').removeClass("activeOnly");
         if(globalState.Sessions[sesid] != undefined) {
             $("#"+sesid).addClass("activeOnly")
             globalState.activeFriend = uid
