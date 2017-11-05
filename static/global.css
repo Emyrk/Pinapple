@@ -67,7 +67,9 @@ li img {
 h5 {
     margin: 0;
 }
-
+.mainScreen{
+    margin-top: 10%;
+}
 h3 { 
     text-align: center;
     display: block;
@@ -112,12 +114,15 @@ span {
     width: 100%;
     text-align: center;
     font-size: 16pt;
-    margin-top:10%;
+    margin-top: 20%;
 }
 #confirm-share-name{
     color: #63959C;
 }
 
+#sharing-with{
+    width: 100%;
+}
 .appContent{
    float: right;
    align-items: center;
@@ -126,7 +131,6 @@ span {
     width: 90%;
     height:80%;
     min-height:80vh;
-    padding-top: 10%;
 }
 
 button {
