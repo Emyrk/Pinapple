@@ -14,7 +14,7 @@ import (
 
 var _ = fmt.Println
 var _ = time.Now
-var upgrader = websocket.Upgrader{} // use default options
+var upgrader = websocket.Upgrader{CheckOrigin: func(r *http.Request) bool { return true }} // use default options
 
 type SessionManager struct {
 	// Map of peer to peer sessions for data
