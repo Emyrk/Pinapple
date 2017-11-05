@@ -24,23 +24,20 @@
     <div class="appContent">
         <div id="mainScreen" class="mainScreen onlyone activeOnly">
             <img src="/static/img/pinapple.png" alt="Logo" />
-            <p class="direc"> Select a friend from your friend's list to start sharing files!</p>
+            <p class="direc"> Select a friend from your list to start sharing files!</p>
         </div>
         <div class="confirmShare onlyone" id="confirmShare">
             <h4> Click to start sharing with <span id="confirm-share-name" uid=""></span> </h4>
             <button type="button" onclick="startShare()"> Share </button>
         </div>
-       
-       
         <div id="wrapper">
-                <h4 id="shareWith" style="display: none;"> You are sharing with <span id="confirm-share-name" uid=""></span> </h4>
             <div id="download-container">
-                
+                <div class="upload-drop-zone" id="drop-zone" style="display: none;">
+                    Just drag and drop files here
                 </div>
+            </div>
         </div>
-            
-            
-            <a id="hidden-download" style="display: none;" download><a/>    
-        </div>
+
+<a id="hidden-download" style="display: none;" download><a/>
 </body>
 </html>
