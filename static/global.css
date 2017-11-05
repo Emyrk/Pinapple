@@ -87,6 +87,7 @@ span {
     background-color: green;
     border-radius: 100%;
 }
+
 .offline {
     height: 15px;
     width: 15px;
@@ -109,21 +110,35 @@ span {
     width: 100%;
     text-align: center;
     font-size: 16pt;
+    margin-top:10%;
 }
+
 #confirm-share-name{
     color: #63959C;
 }
 
 .appContent{
    float: right;
-   display: flex;
    align-items: center;
    text-align: center;
    justify-content: center;
     width: 90%;
-    height:100%;
-    min-height:100vh;
-    margin:0;
+    height:80%;
+    min-height:80vh;
+    padding-top: 10%;
+}
+
+button {
+    font-size: 15pt;
+    padding: 6px 12px;
+    border-radius: 6px;
+    background-color: #fdfdfd;
+    outline: inherit !important;
+    color: #2B303A;
+}
+
+button:hover{
+    border-color: #2B303A;
 }
 
 .direc {
