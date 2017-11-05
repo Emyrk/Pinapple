@@ -62,7 +62,6 @@ GlobalState.prototype.activateBox = function(sesid) {
         var element = this
         if(ui != undefined && ui.draggable.attr("shared")) {
         	console.log("Attr already set")
-            console.log("Attr already set")
             globalWs.ws.send(JSON.stringify({
                 action: "update-location",
                 toUid: globalState.activeFriend,//"b",
@@ -75,9 +74,10 @@ GlobalState.prototype.activateBox = function(sesid) {
                 normlX: ui.draggable.position().left / dropZone.offsetWidth,
                 normlY: ui.draggable.position().top / dropZone.offsetHeight,
             }))
-            globalState.Files[ui.draggable.attr("filename")].xLoc =  ui.draggable.position().left / dropZone.offsetWidth
-            globalState.Files[ui.draggable.attr("filename")].yLoc = ui.draggable.position().top / dropZone.offsetHeight
-            
+            if(globalState.Files[ui.draggable.attr("filename")] != undefined) {
+                globalState.Files[ui.draggable.attr("filename")].xLoc =  ui.draggable.position().left / dropZone.offsetWidth
+                globalState.Files[ui.draggable.attr("filename")].yLoc = ui.draggable.position().top / dropZone.offsetHeight
+            }
         } else {
         	// New file
             var nx = e.offsetX-35
