@@ -3,8 +3,10 @@
   color: #ccc;
   border-style: dashed;
   border-color: #ccc;
-  height: 200px;
+  height: 500px;
   text-align: center;
+  margin-right: 10%;
+  margin-left: 10%;
 }
 
 /* */
