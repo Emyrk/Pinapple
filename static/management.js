@@ -28,7 +28,7 @@ function addFileToDropZone(sesid, fileName, x, y, mine){
     if(mine != undefined && mine) {
         button = ""
     }
-    var draggable = $("<div class='draggable' id='" + domname + "' shared='true' filename='" + fileName + "'>").css({ "margin-left" : x, "margin-top" : y});
+    var draggable = $("<div class='draggable' id='" + domname + "' shared='true' filename='" + fileName + "'>").css({ "left" : x, "top" : y});
     var icon = $("<img src='" + fileImgSrc + "' class=icon>" + button);
     var fileName = $("<div class='fileName'>").html(fileName);
 
@@ -36,7 +36,8 @@ function addFileToDropZone(sesid, fileName, x, y, mine){
     draggable.append(fileName);
     draggable.attr("shared", true)
 
-    $("#"+sesid).append(draggable);
+    $("body").append(draggable)
+    //$("#"+sesid).append(draggable);
     $( ".draggable" ).draggable({ cursor: "crosshair", revert: "invalid"});
 
     $("#"+domname+"-button").on('click', function() {
@@ -195,7 +196,7 @@ GlobalWs.prototype.Create = function() {
                 if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //TODO add in files to screen ui
                     var filename = data.domid
-                    updateLocation($("#"+filename), data.normlX * dropZone.width(), data.normlY * dropZone.height());
+                    updateLocation($("#"+filename), data.normlX * window.innerWidth, data.normlY * innerHeight);
                 } else {
                     console.log("INFO: no friends for update-location.")
                 }
