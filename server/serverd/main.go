@@ -35,7 +35,7 @@ func main() {
 
 	mngmt := server.NewManagementHandler()
 	if *remote {
-		go mngmt.Listen(8000)
+		go mngmt.ListenTLS(8000)
 	} else {
 		go mngmt.Listen(8000)
 	}
