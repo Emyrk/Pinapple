@@ -26,6 +26,27 @@ GlobalState.prototype.addSession = function(toid) {
 	this.activateBox(sesid)
 
     this.Sessions[sesid] = new Session(this.Friends.myid, toid)
+
+    // Hover Graphics
+    $("#"+sesid).droppable({ accept: ".draggable", 
+        drop: function(event, ui) {
+            console.log("drop");
+            $(this).removeClass("border").removeClass("over");
+            var dropped = ui.draggable;
+            var droppedOn = $(this);
+        // $(dropped).detach().css({top: 0,left: 0}).appendTo(droppedOn);      
+
+
+        }, 
+        over: function(event, elem) {
+            $(this).addClass("over");
+            console.log("over");
+        }
+        ,
+        out: function(event, elem) {
+            $(this).removeClass("over");
+        }
+    });
 }
 
 
@@ -109,7 +130,7 @@ GlobalState.prototype.activateBox = function(sesid) {
 
     ondragover = function(e) {
         this.className = 'upload-drop-zone drop';
-        console.log("DRAG OVER: ", e)
+        // console.log("DRAG OVER: ", e)
         return false;
     }
 
