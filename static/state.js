@@ -172,7 +172,7 @@ GlobalState.prototype.activateBox = function(sesid) {
         	// ui.draggable.attr("shared", true)
         	console.log("Attr set")
             $(element).attr("shared", true)
-            globalState.Friends.Files[globalState.activeFriend][e.dataTransfer.files[0].name] = new File(e.dataTransfer.files[0], nx, ny)
+            globalState.Friends.Files[globalState.activeFriend][e.dataTransfer.files[0].name] = new File(e.dataTransfer.files[0], nx / window.innerWidth, ny / window.innerHeight)
 
             var sesid = getSession(globalState.Friends.myid, globalState.activeFriend)
         	// addFileToDropZone($(element).attr("id"), e.dataTransfer.files[0].name, e.pageX - 35, e.pageY - 35, true)
