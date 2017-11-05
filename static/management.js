@@ -67,10 +67,12 @@ GlobalWs.prototype.Create = function() {
     //Set global socket
     globalWs.ws.onopen = function(evt) {
         console.log("OPEN GLOBAL");
+        setTimeout(function() {
         globalWs.ws.send(JSON.stringify({
-            action: "user-connected",
-            fromUid: globalState.Friends.myid,
-        }))
+                action: "user-connected",
+                fromUid: globalState.Friends.myid,
+            }))
+        }, 500);
     }
     globalWs.ws.onclose = function(evt) {
         console.log("CLOSE GLOBAL");
@@ -86,9 +88,13 @@ GlobalWs.prototype.Create = function() {
                 //msg sent by server when user disconnects
                 //notification that user is no long online
                 console.log("User Disconnect", data);
-                if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
+                if(globalState.Friends.IsFriendAndIsMe(data.fromUid, globalState.Friends.myid)) {
                     //if this uid is my friend
-                    // TODO change online to offline for user
+                    var u = $('#pal-'+data.fromUid)
+                    if(u) {
+                        u.find(".online").css("display","none");
+                        u.find(".offline").css("display","block");
+                    }
                 } else {
                     console.log("INFO: no friends for user-disconnected.")
                 }
@@ -98,12 +104,37 @@ GlobalWs.prototype.Create = function() {
                 //msg sent by server when user connects
                 //notification that user has is now online
                 console.log("User Connected", data);
-                if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
+                if(globalState.Friends.IsFriendAndIsMe(data.fromUid, globalState.Friends.myid)) {
                     //if this uid is my friend
-                    // TODO change online to online for user
+                    var u = $('#pal-'+data.fromUid)
+                    if(u) {
+                        u.find(".online").css("display","block");
+                        u.find(".offline").css("display","none");
+                    }
+                    globalWs.ws.send(JSON.stringify({
+                        action: "user-connected-reply",
+                        toUid: data.fromUid,
+                        fromUid: globalState.Friends.myid,
+                    }));
                 } else {
                     console.log("INFO: no friends for user-connected.")
                 }
+                break
+            case "user-connected-reply":
+                //msg sent to user from one user in response to user-connected
+                //notification that user has is now online
+                console.log("User Connected", data);
+                if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
+                    //if this uid is my friend
+                    var u = $('#pal-'+data.fromUid)
+                    if(u) {
+                        u.find(".online").css("display","block");
+                        u.find(".offline").css("display","none");
+                    }
+                } else {
+                    console.log("INFO: no friends for user-connected.")
+                }
+                break
 
             case "share-files":
                 //msg sent to user when "friend" dragged file into dashboard
@@ -113,7 +144,7 @@ GlobalWs.prototype.Create = function() {
                     //if this uid is my friend
                     // TODO show that a file is available for download
                     if($("#" + data.sesid) != undefined) {
-                        addFileToDropZone(data.sesid, data.filename, data.xloc, data.yloc)
+                        addFileToDropZone(data.sesid, data.filename, data.normlX * window.innerWidth, data.normlY * window.innerHeight)
                     }
                     //bounce effect
                     var pal = $("#pal-" + data.fromUid);
@@ -196,7 +227,8 @@ GlobalWs.prototype.Create = function() {
                 if(globalState.Friends.IsFriendAndIsMe(data.fromUid, data.toUid)) {
                     //TODO add in files to screen ui
                     var filename = data.domid
-                    updateLocation($("#"+filename), data.normlX * window.innerWidth, data.normlY * innerHeight);
+                    console.log(data)
+                    updateLocation($("#"+filename), data.normlX * window.innerWidth, data.normlY * window.innerHeight);
                 } else {
                     console.log("INFO: no friends for update-location.")
                 }
