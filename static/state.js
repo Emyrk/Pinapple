@@ -82,12 +82,7 @@ GlobalState.prototype.activateBox = function(sesid) {
 
         var element = this
         if(ui != undefined && ui.draggable.attr("shared")) {
-<<<<<<< HEAD
-        	console.log(ui.position.left)
-            console.log(ui.position.top)
-=======
         	console.log("Attr already set")
->>>>>>> origin/master
             globalWs.ws.send(JSON.stringify({
                 action: "update-location",
                 toUid: globalState.activeFriend,//"b",
