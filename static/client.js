@@ -179,7 +179,7 @@ Connection.prototype.connect = function(uid, sesid) {
     }
     this.ws.onmessage = function(evt) {
         // print("RESPONSE: " + evt.data);
-        console.log("RESPONSE: " + evt.data);
+        // console.log("RESPONSE: " + evt.data);
         // var link = document.getElementById('downloadlink');
         document.getElementById("hidden-download").href = makeTextFile(evt.data);
         document.getElementById("hidden-download").click()

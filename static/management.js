@@ -83,7 +83,6 @@ GlobalWs.prototype.Create = function() {
     globalWs.ws.onmessage = function(evt) {
         data = JSON.parse(evt.data);
         var dropZone = $("#"+data.sesid)
-        console.log("RESPONSE: " + data);
         switch (data.action) {
             case "user-disconnected":
                 //msg sent by server when user disconnects
