@@ -78,8 +78,18 @@ function initGlobalWS() {
 
 function addFriends(response) {
     if(response.data.length > 0) {
+        var arr = [];
         for(var i = 0; i < response.data.length; i++) {
-            globalState.Friends.addFriend(response.data[i].name, response.data[i].id)
+            arr.push({
+                name: response.data[i].name, 
+                id: response.data[i].id,
+            });
+        }
+        arr = arr.sort(function(a, b) {
+            return b.name < a.name;
+        });
+        for (var i = 0; i < arr.length; i++) {
+            globalState.Friends.addFriend(arr[i].name, arr[i].id);
         }
     }
 }
