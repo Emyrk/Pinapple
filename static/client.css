@@ -95,3 +95,18 @@ div.draggable > img:active {
     animation-name: bounce;
 }
 
+.session-container {
+  position: absolute;
+  /*margin-top: 50px;
+  margin-left: 225px;*/
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  pointer-events: none;
+}
+
+.child {
+    pointer-events:auto;
+}
+

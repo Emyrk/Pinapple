@@ -19,7 +19,7 @@ window.fbAsyncInit = function() {
         
         // if the user is logged in, return a list of their friends
         if (response.status == "connected"){
-            window.location = "client.html";
+            window.location.replace("/");
             var queryString = "/me"
             FB.api(queryString, function(response) {
                 globalState.Friends.myid = response.id
@@ -52,7 +52,7 @@ window.fbAsyncInit = function() {
 // Called after the user is logged in (after the Facebook popup window dissapears)
 function checkLoginState() {
     FB.getLoginStatus(function(response) {
-
+        window.location.replace("/");
         var queryString = "/me"
         FB.api(queryString, function(response) {
             globalState.Friends.myid = response.id

@@ -229,7 +229,7 @@ func (c *Connection) Echo(con *Connection) {
 		default:
 		}
 		mt, message, err := c.Conn.ReadMessage()
-		fmt.Println("READ: ", string(message))
+		//fmt.Println("READ: ", string(message))
 		if err != nil {
 			// It's closed
 			c.alive = false
@@ -249,7 +249,7 @@ func (c *Connection) Echo(con *Connection) {
 		}
 
 		err = con.Conn.WriteMessage(mt, message)
-		fmt.Println("WRITE: ", string(message))
+		//fmt.Println("WRITE: ", string(message))
 		if err != nil {
 			// Probably should manage this better
 			time.Sleep(1 * time.Second)

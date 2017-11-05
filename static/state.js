@@ -23,6 +23,8 @@ GlobalState.prototype.addSession = function(toid) {
      </div>
      `)
 
+    $("body").append("<div class='session-container onlyone' id='contain-" + sesid + "'></div>")
+
 	this.activateBox(sesid)
 
     this.Sessions[sesid] = new Session(this.Friends.myid, toid)
@@ -123,7 +125,9 @@ GlobalState.prototype.activateBox = function(sesid) {
             $(element).attr("shared", true)
             globalState.Friends.Files[globalState.activeFriend][e.dataTransfer.files[0].name] = new File(e.dataTransfer.files[0], nx, ny)
 
-        	addFileToDropZone($(element).attr("id"), e.dataTransfer.files[0].name, e.pageX - 35, e.pageY - 35, true)
+            var sesid = getSession(globalState.Friends.myid, globalState.activeFriend)
+        	// addFileToDropZone($(element).attr("id"), e.dataTransfer.files[0].name, e.pageX - 35, e.pageY - 35, true)
+            addFileToDropZone(sesid, e.dataTransfer.files[0].name, e.pageX - 35, e.pageY - 35, true)// 
         }
 	}
 

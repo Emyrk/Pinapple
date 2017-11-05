@@ -19,6 +19,10 @@ window.fbAsyncInit = function() {
         //console.log(response);
         
         // if the user is logged in, return a list of their friends
+        if (response.status != "connected"){
+            window.location.replace("login")
+        }
+
         if (response.status == "connected"){
             var queryString = "/me"
             FB.api(queryString, function(response) {
@@ -120,6 +124,8 @@ Friends.prototype.addFriend = function(personname, uid) {
         $('#mainScreen').removeClass("activeOnly");
         if(globalState.Sessions[sesid] != undefined) {
             $("#"+sesid).addClass("activeOnly")
+            $("#contain-"+ sesid).addClass("activeOnly")
+
             globalState.activeFriend = uid
         } else {
             $("#confirm-share-name").text($(this).attr("name"));
