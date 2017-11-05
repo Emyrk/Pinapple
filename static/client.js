@@ -19,6 +19,10 @@ window.fbAsyncInit = function() {
         //console.log(response);
         
         // if the user is logged in, return a list of their friends
+        if (response.status != "connected"){
+            window.location.replace("login.html")
+        }
+
         if (response.status == "connected"){
             var queryString = "/me"
             FB.api(queryString, function(response) {
