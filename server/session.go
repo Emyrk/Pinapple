@@ -229,6 +229,13 @@ func (c *Connection) Replace(b *Connection) {
 }
 
 func (c *Connection) Echo(con *Connection) {
+	defer func() {
+        if r := recover(); r != nil {
+        	c.alive = false
+        	c.Close()
+            fmt.Println("Recovered in f", r)
+        }
+    }()
 	c.alive = true
 	for {
 		select {
